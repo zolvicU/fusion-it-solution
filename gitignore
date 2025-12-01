@@ -1,0 +1,3 @@
+ # Ignore XAMPP logs/temp
+*.log
+temp/
