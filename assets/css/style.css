@@ -1,0 +1,230 @@
+/* ====================================
+   RESET & BASIC SETUP
+   ==================================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.section {
+    padding: 100px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h1, h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ====================================
+   HERO PARALLAX
+   ==================================== */
+.hero {
+    position: relative;
+    height: 100vh;
+    min-height: 650px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 2;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+}
+
+.hero-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    max-width: 900px;
+    padding: 2rem;
+}
+
+.hero h1 {
+    font-size: 3.8rem;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.4rem;
+    opacity: 0.95;
+    margin-bottom: 3rem;
+}
+
+.hero-buttons .btn-primary,
+.hero-buttons .btn-secondary {
+    display: inline-block;
+    padding: 14px 32px;
+    margin: 0 10px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.hero-buttons .btn-primary {
+    background: #0055ff;
+    color: white;
+}
+
+.hero-buttons .btn-primary:hover { background: #003bb5; }
+
+.hero-buttons .btn-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.hero-buttons .btn-secondary:hover {
+    background: white;
+    color: #111;
+}
+
+/* ====================================
+   NAVIGATION STYLES (fixed at top)
+   ==================================== */
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    transition: background 0.3s;
+}
+
+.nav-logo { 
+    height: 50px; 
+    margin-right: 10px; 
+}
+
+nav .logo { 
+    display: flex; 
+    align-items: center; 
+    color: white; 
+    font-size: 1.5rem; 
+    font-weight: 700; 
+}
+
+nav ul { 
+    display: flex; 
+    gap: 2rem; 
+    list-style: none; 
+    margin: 0; 
+}
+
+nav ul a { 
+    color: white; 
+    text-decoration: none; 
+    font-weight: 500;
+    transition: opacity 0.3s;
+}
+
+nav ul a:hover {
+    opacity: 0.7;
+}
+
+.hamburger { 
+    display: none; 
+    font-size: 2rem; 
+    color: white; 
+    cursor: pointer; 
+    z-index: 1001;
+}
+
+/* Mobile Menu */
+@media (max-width: 768px) {
+    .hamburger { 
+        display: block; 
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 0; 
+        left: -100%;
+        width: 100%; 
+        height: 100vh;
+        background: rgba(0,0,0,0.98);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: left 0.4s ease;
+        z-index: 1000;
+    }
+    
+    .nav-links.active { 
+        left: 0; 
+    }
+    
+    nav ul { 
+        flex-direction: column; 
+        text-align: center; 
+    }
+    
+    nav ul li { 
+        margin: 2rem 0; 
+    }
+    
+    nav ul a { 
+        font-size: 2rem; 
+    }
+}
+
+/* ====================================
+   FOOTER
+   ==================================== */
+footer {
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.9rem;
+}
