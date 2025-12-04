@@ -1,40 +1,207 @@
 /* Full Day 3 CSS – clean & minimalist */
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:'Inter',sans-serif; color:#333; line-height:1.6; overflow-x:hidden; }
+* { 
+    margin:0; 
+    padding:0; 
+    box-sizing:border-box; 
+}
 
-.container { width:90%; max-width:1200px; margin:0 auto; padding:0 20px; }
-.section { padding:100px 0; text-align:center; }
+body { 
+    font-family:'Inter', sans-serif; 
+    font-weight:300; /* INTER LIGHT */
+    color:#333; 
+    line-height:1.6; 
+    overflow-x:hidden; 
+}
 
-.hero { position:relative; height:100vh; min-height:600px; overflow:hidden; display:flex; align-items:center; justify-content:center; text-align:center; color:white; }
-.hero::before { content:""; position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:2; }
-.hero-bg { position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; }
-.hero-bg img { width:100%; height:100%; object-fit:cover; }
-.hero-content { position:relative; z-index:3; max-width:900px; }
-.hero-logo { height:80px; margin-bottom:20px; }
-.hero h1 { font-size:3.8rem; margin-bottom:20px; }
-.hero-subtitle { font-size:1.4rem; margin-bottom:40px; opacity:0.9; }
-.hero-buttons a { padding:14px 34px; margin:0 10px; border-radius:50px; text-decoration:none; font-weight:600; display:inline-block; transition:0.3s; }
+/* Container */
+.container { 
+    width:90%; 
+    max-width:1200px;
+    margin:0 auto; 
+    padding:0 20px; 
+}
+
+.section { 
+    padding:100px 0; 
+    text-align:center; 
+}
+
+/* Hero Section */
+.hero { 
+    position:relative; 
+    height:100vh; 
+    min-height:600px; 
+    overflow:hidden; 
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    text-align:center; 
+    color:white; 
+}
+
+.hero::before { 
+    content:""; 
+    position:absolute; 
+    top:0; 
+    left:0;
+    right:0; 
+    bottom:0; 
+    background:rgba(0,0,0,0.5); 
+    z-index:2; 
+}
+
+.hero-bg { 
+    position:absolute; 
+    top:0; 
+    left:0; 
+    width:100%; 
+    height:100%; 
+    z-index:1;
+}
+
+.hero-bg img { 
+    width:100%; 
+    height:100%; 
+    object-fit:cover; 
+}
+
+.hero-content { 
+    position:relative; 
+    z-index:3; 
+    max-width:900px; 
+}
+
+.hero-logo { 
+    height:80px; 
+    margin-bottom:20px; 
+}
+
+.hero h1 { 
+    font-size:3.8rem; 
+    font-weight:300; /* Inter Light */
+    margin-bottom:20px; 
+}
+
+.hero-subtitle { 
+    font-size:1.4rem; 
+    font-weight:300; /* Inter Light */
+    margin-bottom:40px; 
+    opacity:0.9; 
+}
+
+/* Buttons */
+.hero-buttons a { 
+    padding:14px 34px; 
+    margin:0 10px; 
+    border-radius:50px; 
+    text-decoration:none; 
+    font-weight:400; 
+    display:inline-block; 
+    transition:0.3s; 
+}
+
 .btn-primary { background:#0066ff; color:white; }
 .btn-primary:hover { background:#0044cc; }
+
 .btn-secondary { border:2px solid white; color:white; }
 .btn-secondary:hover { background:white; color:#000; }
 
 /* Navigation */
-nav { position:fixed; top:0; left:0; width:100%; padding:20px 5%; display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.4); backdrop-filter:blur(10px); z-index:1000; }
-.nav-logo { height:50px; margin-right:12px; }
-nav .logo span { color:white; font-size:1.5rem; font-weight:700; }
-nav ul { display:flex; gap:30px; list-style:none; }
-nav ul a { color:white; text-decoration:none; font-weight:500; }
-.hamburger { display:none; font-size:2rem; color:white; cursor:pointer; }
-
-/* Mobile Menu */
-@media (max-width:768px) {
-    .hamburger { display:block; }
-    .nav-links { position:fixed; top:0; left:-100%; width:100%; height:100vh; background:rgba(0,0,0,0.98); display:flex; align-items:center; justify-content:center; transition:0.4s; }
-    .nav-links.active { left:0; }
-    nav ul { flex-direction:column; text-align:center; }
-    nav ul li { margin:25px 0; }
-    nav ul a { font-size:2rem; }
+nav { 
+    position:fixed; 
+    top:0; 
+    left:0; 
+    width:100%; 
+    padding:10px 5%; 
+    display:flex; 
+    justify-content:space-between; 
+    align-items:center; 
+    background:rgba(255,255,255,0.45); 
+    backdrop-filter:blur(10px); 
+    z-index:1000; 
 }
 
-footer { background:#111; color:white; text-align:center; padding:30px; }
+/* Wrap logo + text */
+nav .logo {
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+}
+
+.nav-logo { 
+    height:50px; 
+}
+
+/* Fusion IT text */
+nav .logo span { 
+    color:#000;
+    font-size:1.3rem; 
+    font-weight:300; /* Inter Light */
+}
+
+/* Navigation Links */
+nav ul { 
+    display:flex; 
+    gap:30px; 
+    list-style:none; 
+}
+
+nav ul a { 
+    color:#000;
+    text-decoration:none; 
+    font-weight:300; /* Inter Light */
+}
+
+/* Hamburger Menu */
+.hamburger { 
+    display:none; 
+    font-size:2rem; 
+    color:#000; 
+    cursor:pointer; 
+}
+
+/* Mobile Responsive */
+@media (max-width:768px) {
+    .hamburger { display:block; }
+
+    .nav-links { 
+        position:fixed; 
+        top:0; 
+        left:-100%; 
+        width:100%; 
+        height:100vh; 
+        background:rgba(0,0,0,0.98); 
+        display:flex; 
+        align-items:center; 
+        justify-content:center; 
+        transition:0.4s; 
+    }
+
+    .nav-links.active { left:0; }
+
+    nav ul { 
+        flex-direction:column; 
+        text-align:center; 
+    }
+
+    nav ul li { 
+        margin:25px 0; 
+    }
+
+    nav ul a { 
+        font-size:2rem; 
+        color:white; 
+        font-weight:300; /* Inter Light */
+    }
+}
+
+/* Footer */
+footer { 
+    background:#898989; 
+    color:white; 
+    text-align:center; 
+    padding:30px; 
+    font-weight:300; /* Inter Light */
+}
+

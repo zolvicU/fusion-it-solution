@@ -1,10 +1,12 @@
 <?php include 'includes/header.php'; ?>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
 
 <!-- Parallax Hero Section -->
 <section class="hero">
     <!-- Background moves slowly -->
     <div class="hero-bg rellax" data-rellax-speed="-6">
-        <img src="assets/images/hero-bg2.jpg" alt="Fusion IT Background">
+        <img src="assets/images/hero-bg2.png" alt="Fusion IT Background">
     </div>
 
     <!-- Text moves faster -->
@@ -15,7 +17,7 @@
             <a href="#services" class="btn-primary">Our Services</a>
             <a href="#contact" class="btn-secondary">Get in Touch</a>
         </div>
-    </div>
+    </div>      
 </section>
 
 <!-- Placeholder sections -->
