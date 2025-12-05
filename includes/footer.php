@@ -1,16 +1,9 @@
 <footer>
-    <p>© 2025 Fusion I.T. Solution. All rights reserved.</p>
+    <div class="container">
+        <p>© 2025 Fusion I.T. Solutions. All rights reserved.</p>
+    </div>
 </footer>
 
-<script src="assets/js/rellax.min.js"></script>
-<script>
-    // Start parallax
-    var rellax = new Rellax('.rellax', { center: true });
-
-    // Mobile menu toggle
-    document.querySelector('.hamburger').addEventListener('click', function() {
-        document.querySelector('.nav-links').classList.toggle('active');
-    });
-</script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

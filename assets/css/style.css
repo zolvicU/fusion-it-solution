@@ -1,207 +1,367 @@
-/* Full Day 3 CSS – clean & minimalist */
-* { 
-    margin:0; 
-    padding:0; 
-    box-sizing:border-box; 
+
+/* ------------------------------------------------------------
+   1. Base & Reset
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-body { 
-    font-family:'Inter', sans-serif; 
-    font-weight:300; /* INTER LIGHT */
-    color:#333; 
-    line-height:1.6; 
-    overflow-x:hidden; 
+html {
+    scroll-behavior: smooth;
 }
 
-/* Container */
-.container { 
-    width:90%; 
-    max-width:1200px;
-    margin:0 auto; 
-    padding:0 20px; 
+body {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #ffffff;
+    background: #ffffff;
+    overflow-x: hidden;
 }
 
-.section { 
-    padding:100px 0; 
-    text-align:center; 
+/* ------------------------------------------------------------
+   2. Layout & Containers
+   ------------------------------------------------------------ */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
-/* Hero Section */
-.hero { 
-    position:relative; 
-    height:100vh; 
-    min-height:600px; 
-    overflow:hidden; 
-    display:flex; 
-    align-items:center; 
-    justify-content:center; 
-    text-align:center; 
-    color:white; 
+.section {
+    padding: 120px 0;
+    text-align: center;
 }
 
-.hero::before { 
-    content:""; 
-    position:absolute; 
-    top:0; 
-    left:0;
-    right:0; 
-    bottom:0; 
-    background:rgba(0,0,0,0.5); 
-    z-index:2; 
+/* ------------------------------------------------------------
+   3. Hero Section – Multi-Layer Parallax Masterpiece
+   ------------------------------------------------------------ */
+.hero {
+    position: relative;
+    height: 100vh;
+    min-height: 700px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
 }
 
-.hero-bg { 
-    position:absolute; 
-    top:0; 
-    left:0; 
-    width:100%; 
-    height:100%; 
-    z-index:1;
+/* Dark gradient overlay – cinematic feel */
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, 
+        rgba(0, 20, 60, 0.88) 0%, 
+        rgba(0, 0, 0, 0.65) 70%
+    );
+    z-index: 3;
+    pointer-events: none;
 }
 
-.hero-bg img { 
-    width:100%; 
-    height:100%; 
-    object-fit:cover; 
+/* Parallax Layers */
+.hero-bg-deep,
+.hero-bg-mid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 110%;
+    z-index: 1;
 }
 
-.hero-content { 
-    position:relative; 
-    z-index:3; 
-    max-width:900px; 
+.hero-bg-deep img,
+.hero-bg-mid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
 }
 
-.hero-logo { 
-    height:80px; 
-    margin-bottom:20px; 
+.hero-bg-mid {
+    z-index: 2;
+    opacity: 0.65;
 }
 
-.hero h1 { 
-    font-size:3.8rem; 
-    font-weight:300; /* Inter Light */
-    margin-bottom:20px; 
+/* Hero Content */
+.hero-content {
+    position: relative;
+    z-index: 4;
+    max-width: 900px;
+    padding: 0 20px;
+    text-align: center;
 }
 
-.hero-subtitle { 
-    font-size:1.4rem; 
-    font-weight:300; /* Inter Light */
-    margin-bottom:40px; 
-    opacity:0.9; 
+.hero-text h1 {
+    font-size: 4.5rem;
+    font-weight: 200;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease-out forwards;
 }
 
-/* Buttons */
-.hero-buttons a { 
-    padding:14px 34px; 
-    margin:0 10px; 
-    border-radius:50px; 
-    text-decoration:none; 
-    font-weight:400; 
-    display:inline-block; 
-    transition:0.3s; 
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 50px;
+    opacity: 0.95;
+    text-shadow: 0 2px 15px rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out 0.4s forwards;
 }
 
-.btn-primary { background:#0066ff; color:white; }
-.btn-primary:hover { background:#0044cc; }
-
-.btn-secondary { border:2px solid white; color:white; }
-.btn-secondary:hover { background:white; color:#000; }
-
-/* Navigation */
-nav { 
-    position:fixed; 
-    top:0; 
-    left:0; 
-    width:100%; 
-    padding:10px 5%; 
-    display:flex; 
-    justify-content:space-between; 
-    align-items:center; 
-    background:rgba(255,255,255,0.45); 
-    backdrop-filter:blur(10px); 
-    z-index:1000; 
+.hero-buttons {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out 0.7s forwards;
 }
 
-/* Wrap logo + text */
-nav .logo {
-    display:flex;
-    align-items:center;
-    gap:10px;
-
+/* ------------------------------------------------------------
+   4. Buttons – Premium Feel
+   ------------------------------------------------------------ */
+.hero-buttons a {
+    padding: 16px 40px;
+    margin: 0 15px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 1.1rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.nav-logo { 
-    height:50px; 
+.btn-primary {
+    background: linear-gradient(135deg, #0066ff, #0044cc);
+    color: white;
 }
 
-/* Fusion IT text */
-nav .logo span { 
-    color:#000;
-    font-size:1.3rem; 
-    font-weight:300; /* Inter Light */
+.btn-primary:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(0, 102, 255, 0.5);
 }
 
-/* Navigation Links */
-nav ul { 
-    display:flex; 
-    gap:30px; 
-    list-style:none; 
+.btn-secondary {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    color: white;
 }
 
-nav ul a { 
-    color:#000;
-    text-decoration:none; 
-    font-weight:300; /* Inter Light */
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2);
 }
 
-/* Hamburger Menu */
-.hamburger { 
-    display:none; 
-    font-size:2rem; 
-    color:#000; 
-    cursor:pointer; 
+/* ------------------------------------------------------------
+   5. Navigation – Glassmorphism + Scroll Effect
+   ------------------------------------------------------------ */
+.hero-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 0;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 1000;
+    transition: all 0.4s ease;
 }
 
-/* Mobile Responsive */
-@media (max-width:768px) {
-    .hamburger { display:block; }
+.hero-nav.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.278);
+}
 
-    .nav-links { 
-        position:fixed; 
-        top:0; 
-        left:-100%; 
-        width:100%; 
-        height:100vh; 
-        background:rgba(0,0,0,0.98); 
-        display:flex; 
-        align-items:center; 
-        justify-content:center; 
-        transition:0.4s; 
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.hero-nav.scrolled .logo,
+.hero-nav.scrolled .nav-links a {
+    color: #ff0000;
+}
+
+.nav-logo {
+    height: 50px;
+    transition: all 0.3s;
+    border-radius: 5px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: #ffffffd1;
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 1.1rem;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.hero-nav.scrolled .nav-links a {
+    color: #000;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #0066ff;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* ------------------------------------------------------------
+   6. Hamburger Menu
+   ------------------------------------------------------------ */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.hamburger span {
+    width: 30px;
+    height: 3px;
+    background: #3700ff;
+    border-radius: 3px;
+    transition: all 0.4s ease;
+}
+
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+/* ------------------------------------------------------------
+   7. Scroll Indicator
+   ------------------------------------------------------------ */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.988);
+    animation: bounce 2s infinite;
+}
+
+.arrow {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    margin: 15px auto 0;
+}
+
+/* ------------------------------------------------------------
+   8. Animations
+   ------------------------------------------------------------ */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+    40% { transform: translateX(-50%) translateY(-10px); }
+    60% { transform: translateX(-50%) translateY(-5px); }
+}
+
+/* ------------------------------------------------------------
+   9. Mobile First Responsiveness
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+    .hamburger { display: flex; }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100vw;
+        height: 100vh;
+        background: #ffffff;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: left 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        gap: 50px;
     }
 
-    .nav-links.active { left:0; }
+    .nav-links.active { left: 0; }
 
-    nav ul { 
-        flex-direction:column; 
-        text-align:center; 
+    .nav-links a {
+        font-size: 2.5rem;
+        color: #000000;
     }
 
-    nav ul li { 
-        margin:25px 0; 
-    }
+    .hero h1 { font-size: 2.8rem; }
+    .hero-subtitle { font-size: 1.2rem; }
+    .hero-buttons a { padding: 14px 30px; margin: 10px; }
 
-    nav ul a { 
-        font-size:2rem; 
-        color:white; 
-        font-weight:300; /* Inter Light */
-    }
+    /* Performance: Disable parallax on mobile */
+    .rellax { transform: none !important; }
+    .hero-bg-mid { display: none; }
+    .scroll-indicator { display: none; }
 }
 
-/* Footer */
-footer { 
-    background:#898989; 
-    color:white; 
-    text-align:center; 
-    padding:30px; 
-    font-weight:300; /* Inter Light */
+/* ------------------------------------------------------------
+   10. Content Sections & Footer
+   ------------------------------------------------------------ */
+.section h2 {
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: #111;
+    margin-bottom: 30px;
 }
 
+.section p {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto;
+    color: #555;
+    line-height: 1.8;
+}
+
+footer {
+    background: #111;
+    color: #888;
+    text-align: center;
+    padding: 60px 20px;
+    font-weight: 300;
+}
+
+/* ============================================================
+   END OF STYLES – Clean, Fast, Beautiful
+   ============================================================ */
+
+   
