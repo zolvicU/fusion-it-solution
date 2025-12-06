@@ -38,8 +38,10 @@
     <!-- Hero Content -->
     <div class="hero-content rellax" data-rellax-speed="2" data-rellax-xs-speed="0">
         <div class="hero-text">
-            <h1 class="fade-in">Building Tomorrow's Tech Today</h1>
-            <p class="hero-subtitle fade-in-delay">Enterprise Solutions • Cloud Innovation • Secure Foundations • Unmatched Support</p>
+            <h1 class="fade-in"><b>Your #1</b> Go-To Partner for All Your IT Needs
+</h1>
+            <p class="hero-subtitle fade-in-delay"> IT Network Solutions •  Software Development • Surveillance and Security Technologies • eace of mind.
+• System Services •  IT Products</p>
             <div class="hero-buttons fade-in-delay2">
                 <a href="#services" class="btn-primary">Explore Services</a>
                 <a href="#contact" class="btn-secondary">Start Project</a>
@@ -50,29 +52,94 @@
     <!-- Scroll Indicator -->
     <div class="scroll-indicator">
         <span>Scroll to Discover</span>
-        <div class="arrow up"></div>
+        <div class="arrow"></div>
     </div>
 </section>
 
-<!-- Other Sections -->
-<section id="about" class="section">
-    <div class="container">
-        <h2>About Fusion IT</h2>
-        <p>We deliver cutting-edge IT solutions that scale with your business. From cloud infrastructure to 24/7 support, we've got you covered.</p>
-    </div>
-</section>
+
+<?php include 'includes/section-products.php'; ?>
 
 <section id="services" class="section">
     <div class="container">
-        <h2>Our Services</h2>
-        <p>Cloud Migration • Cybersecurity • Managed IT • Custom Development • 24/7 Support</p>
+        <h2>Our Services</h2>ud Mig
+        <h2>Our General Services</h2>
+        <p>CCTV Security & Intercom (both wired and wireless)<br>
+• LAN & WAN<br>
+• Wireless Networking (including
+long range wireless)<br>
+• PABX<br>
+• Internet Services<br>
+• Solar Panel System (Grid, OffGrid, Hybrid)<br>
+• Fire Alarm Systems • Mono Pole<br>
+Design and Construction</p><br>
+<h2>System Services</h2>
+<p>Company or Business Server
+Setup<br>
+• Accounting Systems / Payroll
+Systems<br>
+• Website Development<br>
+• Software/Application
+Development<br>
+• Business Email Solutions</p>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section about-section">
+    <div class="container">
+        <h2 class="about-main-title">About Us</h2>
+
+        <div class="about-grid">
+            <!-- Left Column: Our Mission -->
+            <div class="mission-column">
+                <p class="about-text">
+                   <b>Fusion IT Solution is an IT solutions provider in the Philippines, empowering 
+                    businesses with over 15 years of expertise</b> in:
+                </p>
+                <ul class="about-list">
+                    <li>IT Network Solutions: From basic troubleshooting to complex network infrastructure design, implementation, and management.</li>
+                    <li>Software Development: Custom software tailored to your business needs, including telemedicine platforms, joborder management systems, and more.</li>
+                    <li>Surveillance and Security Technologies: Comprehensive CCTV and intercom solutions for enhanced security and peace of mind.</li>
+                    <li>System Services: Set up servers, implement business systems, and develop websites or applications.</li>
+                    <li>IT Products: Equip your business with reliable computer units, CCTV cameras, Wi-Fi solutions, and other essential hardware.</li>
+                </ul>
+            </div>
+
+            <!-- Right Column: Why We Do What We Do -->
+            <div class="why-column">
+                <h3 class="about-subtitle">Core Values</h3>
+                <ul class="why-list">
+                    <li>Honesty: Building trust through transparent communication and ethical practices.</li>
+                    <li> Reliability: Delivering solutions that consistently meet or exceed expectations.</li>
+                    <li>Affordability: Providing value-driven solutions that align with your budget.</li>
+                    <li>Affordability: Providing value-driven solutions that align with your budget.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Vision Section -->
+        <div class="vision-section">
+            <h3 class="about-subtitle vision-title">Our Vision and Commitment</h3>
+            <p class="about-text vision-text">
+                Our vision is to become a nationally recognized IT solutions provider, reaching more clients and becoming their go-to partner for all their IT needs.
+            </p>
+            <p class="about-text" style="margin-top: 20px;">
+                We are committed to:
+            </p>
+            <ul class="why-list vision-list">
+                <li>Staying at the forefront of technology advancements to offer cutting-edge solutions.</li>
+                <li>Delivering exceptional service to build lasting client relationships.</li>
+                <li>Driving innovation and enabling businesses to thrive in the digital age.</li>
+            </ul>
+        </div>
     </div>
 </section>
 
 <section id="contact" class="section">
     <div class="container">
         <h2>Contact Us</h2>
-        <p>Email: info@fusionit.com | Phone: +1 (555) 123-4567</p>
+        <p>admin@fusionitsolution.com | Phone: +0918 311 4656
+</p>
     </div>
 </section>
 
