@@ -47,7 +47,7 @@
     </div>
 </section>
 
-<?php include 'includes/section-products.php'; ?>
+<?php include 'includes/products.php'; ?>
 
 <section id="services" class="services-section">
     <div class="container">
