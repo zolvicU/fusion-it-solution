@@ -206,7 +206,7 @@
                 <div class="contact-item">
                     <div class="contact-icon">⌂</div> <div class="contact-details">
                         <strong>Office Location</strong>
-                        <span>0354 Calitcalit, San Juan, Philippines</span>
+                        <span class="spam">0354 Calitcalit, San Juan, Philippines</span>
                     </div>
                 </div>
                 
