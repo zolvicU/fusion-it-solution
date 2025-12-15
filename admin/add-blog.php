@@ -15,10 +15,9 @@ if (!isset($pdo)) {
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $title       = trim($_POST["title"]);
-    $content     = trim($_POST["content"]);
+    $title   = trim($_POST["title"]);
+    $content = trim($_POST["content"]);
 
-    // Auto-generate slug from title
     $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
 
     $errors = [];
@@ -27,7 +26,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($content)) $errors[] = "Content is required.";
     if (empty($slug))    $errors[] = "Slug could not be generated from title.";
 
-    // Image upload (optional)
     $image_name = "";
     if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
         $target_dir = "../assets/uploads/blog/";
@@ -51,7 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    // Save to DB
     if (empty($errors)) {
         try {
             $sql = "INSERT INTO blog_posts (title, slug, content, image) VALUES (?, ?, ?, ?)";
@@ -59,9 +56,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute([$title, $slug, $content, $image_name]);
 
             $message = "<div class='alert success'>Blog post added successfully!</div>";
-            $title = $content = ""; // clear form
+            $title = $content = "";
         } catch (Exception $e) {
-            if ($e->getCode() == 23000) { // Duplicate slug
+            if ($e->getCode() == 23000) {
                 $errors[] = "A post with this title/slug already exists. Try a different title.";
             } else {
                 $errors[] = "Database error: " . $e->getMessage();
@@ -82,49 +79,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Add Blog Post | Admin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
-        :root { --primary: #0066ff; --success: #10b981; --error: #ef4444; --gray-100: #f3f4f6; --gray-200: #e5e7eb; --gray-800: #1f2937; --shadow: 0 4px 12px rgba(0,0,0,0.08); --radius: 12px; }
-        body { font-family: 'Inter', sans-serif; background: #f9fafb; color: var(--gray-800); margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: 40px auto; }
-        .card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-        .card-header { background: var(--primary); color: white; padding: 30px; text-align: center; }
-        .card-header h1 { margin: 0; font-size: 28px; font-weight: 600; }
-        .card-body { padding: 32px; }
-        label { display: block; font-weight: 500; margin-bottom: 8px; }
-        input[type="text"], textarea, input[type="file"] { width: 100%; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: 8px; font-size: 16px; }
-        textarea { min-height: 200px; resize: vertical; }
-        .btn { background: var(--primary); color: white; padding: 14px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 20px; }
-        .alert { padding: 16px; border-radius: 8px; margin-bottom: 24px; font-weight: 500; }
-        .alert.success { background: #d1fae5; color: var(--success); border: 1px solid #a7f3d0; }
-        .alert.error { background: #fee2e2; color: var(--error); border: 1px solid #fecaca; }
-        .back-link { display: block; text-align: center; margin-top: 32px; color: var(--gray-600); text-decoration: none; font-weight: 500; }
-        .back-link:hover { color: var(--primary); }
-    </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
             <div class="card-header">
                 <h1>Add New Blog Post</h1>
+                <p>Create engaging content for your website visitors</p>
             </div>
+
             <div class="card-body">
                 <?php if ($message): ?>
                     <?php echo $message; ?>
                 <?php endif; ?>
 
                 <form method="post" enctype="multipart/form-data">
-                    <label for="title">Title</label>
-                    <input type="text" id="title" name="title" value="<?php echo isset($title) ? htmlspecialchars($title) : ''; ?>" required>
+                    <div class="form-group">
+                        <label for="title">Blog Title</label>
+                        <input type="text" name="title" id="title" value="<?= isset($title) ? htmlspecialchars($title) : '' ?>" required>
+                    </div>
 
-                    <label for="content">Content</label>
-                    <textarea id="content" name="content" required><?php echo isset($content) ? htmlspecialchars($content) : ''; ?></textarea>
+                    <div class="form-group">
+                        <label for="content">Blog Content</label>
+                        <textarea name="content" id="content" required><?= isset($content) ? htmlspecialchars($content) : '' ?></textarea>
+                    </div>
 
-                    <label for="image">Featured Image (optional)</label>
-                    <input type="file" id="image" name="image" accept="image/*">
+                    <div class="form-group">
+                        <label for="image">Featured Image (optional)</label>
+                        <input type="file" name="image" id="image" accept="image/*">
+                        <small style="color:#64748b; display:block; margin-top:6px; font-size: 1rem;">Max 5MB • JPG, PNG, GIF</small>
+                    </div>
 
-                    <button type="submit" class="btn">Add Post</button>
+                    <button type="submit" class="btn">Publish Post</button>
                 </form>
 
                 <a href="dashboard.php" class="back-link">← Back to Dashboard</a>

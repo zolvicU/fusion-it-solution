@@ -35,112 +35,313 @@ if (isset($_GET['msg'])) {
     <title>Admin Dashboard - Products</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #0066ff;
-            --primary-dark: #0052cc;
+            --primary: #4361ee;
+            --primary-light: #4895ef;
             --success: #10b981;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-600: #4b5563;
-            --gray-800: #1f2937;
+            --danger: #ef4444;
+            --gray-100: #f8fafc;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-600: #475569;
+            --gray-800: #1e293b;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
             --shadow: 0 4px 12px rgba(0,0,0,0.08);
-            --radius: 12px;
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.08);
+            --radius: 16px;
+            --radius-sm: 12px;
         }
-        body { font-family: 'Inter', sans-serif; background: #f0f4ff; color: var(--gray-800); margin: 0; padding: 20px; }
-        .container { max-width: 1100px; margin: 40px auto; }
-        .card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
-        .card-header { background: var(--primary); color: white; padding: 30px; text-align: center; }
-        .card-header h1 { margin: 0; font-size: 28px; font-weight: 600; }
-        .card-header p { margin: 10px 0 0; opacity: 0.9; }
-        .card-body { padding: 32px; }
-        .btn { display: inline-block; background: var(--primary); color: white; padding: 12px 20px; border: none; border-radius: 8px; font-weight: 600; text-decoration: none; cursor: pointer; transition: background 0.3s; }
-        .btn:hover { background: var(--primary-dark); }
-        .btn-success { background: var(--success); }
-        .btn-success:hover { background: #059669; }
-        .btn-danger { background: #ef4444; }
-        .btn-danger:hover { background: #dc2626; }
-        .alert-success { background: #d1fae5; color: var(--success); padding: 16px; border-radius: 8px; border: 1px solid #a7f3d0; margin-bottom: 24px; font-weight: 500; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { padding: 14px; text-align: left; border-bottom: 1px solid var(--gray-200); }
-        th { background: var(--gray-100); font-weight: 600; }
-        .thumb { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; border: 1px solid var(--gray-200); }
-        .actions a { margin-right: 8px; font-size: 14px; }
-        .no-products { text-align: center; padding: 60px; color: var(--gray-600); font-size: 18px; }
-        .logout { text-align: center; margin-top: 40px; }
-        .logout a { color: var(--primary); text-decoration: none; font-weight: 500; }
-        .logout a:hover { text-decoration: underline; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f8fbff 100%);
+            color: var(--gray-800);
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 40px 32px;
+            text-align: center;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .section-title {
+            font-size: 16px;
+            color: var(--gray-600);
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .add-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            margin-bottom: 32px;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: var(--success);
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            border: 1px solid #a7f3d0;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .products-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-id {
+            font-weight: 600;
+            color: var(--gray-600);
+            font-size: 14px;
+            min-width: 40px;
+        }
+
+        .product-thumb {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-200);
+            flex-shrink: 0;
+        }
+
+        .product-thumb.placeholder {
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-600);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .product-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .product-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-featured {
+            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .featured-yes {
+            background: #d1fae5;
+            color: var(--success);
+        }
+
+        .featured-no {
+            background: var(--gray-200);
+            color: var(--gray-600);
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-edit {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #059669;
+        }
+
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+        }
+
+        .no-products {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        .no-products a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .no-products a:hover {
+            text-decoration: underline;
+        }
+
+        .logout {
+            text-align: center;
+            margin-top: 48px;
+        }
+
+        .logout a {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        .logout a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h1>Admin Dashboard</h1>
-                <p>Welcome back, <strong><?= htmlspecialchars($_SESSION['admin_username'] ?? 'Admin') ?></strong></p>
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+            <p>Welcome back, <strong><?= htmlspecialchars($_SESSION['admin_username'] ?? 'Admin') ?></strong></p>
+        </div>
+
+        <div class="section-title">
+            Manage your products below. Add, edit, or remove items for the Featured Products section.
+        </div>
+
+        <?php if ($success_msg): ?>
+            <div class="alert-success"><?= htmlspecialchars($success_msg) ?></div>
+        <?php endif; ?>
+
+        <?php if (isset($error)): ?>
+            <div class="alert-success" style="background:#fee2e2;color:#ef4444;border-color:#fecaca;">
+                <?= htmlspecialchars($error) ?>
             </div>
+        <?php endif; ?>
 
-            <div class="card-body">
-                <p>Manage your products below. Add, edit, or remove items for the Featured Products section.</p>
+        <a href="add-product.php" class="add-btn">
+            + Add New Product
+        </a>
 
-                <?php if ($success_msg): ?>
-                    <div class="alert-success"><?= $success_msg ?></div>
-                <?php endif; ?>
-
-                <?php if (isset($error)): ?>
-                    <div class="alert-success" style="background:#fee2e2;color:#ef4444;border-color:#fecaca;">
-                        <?= htmlspecialchars($error) ?>
-                    </div>
-                <?php endif; ?>
-
-                <p>
-                    <a href="add-product.php" class="btn">+ Add New Product</a>
-                </p>
-
-                <?php if (empty($products)): ?>
-                    <div class="no-products">
-                        No products found. <a href="add-product.php">Add your first product</a> to get started!
-                    </div>
-                <?php else: ?>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Image</th>
-                                <th>Title</th>
-                                <th>Featured</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($products as $product): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($product['id']) ?></td>
-                                    <td>
-                                        <?php if (!empty($product['image'])): ?>
-                                            <img src="../assets/uploads/products/<?= htmlspecialchars($product['image']) ?>" alt="Product" class="thumb">
-                                        <?php else: ?>
-                                            <em>No image</em>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td><?= htmlspecialchars($product['title'] ?? $product['name'] ?? 'Untitled') ?></td>
-                                    <td><?= !empty($product['featured']) ? 'Yes' : 'No' ?></td>
-                                    <td class="actions">
-                                        <a href="edit-product.php?id=<?= $product['id'] ?>" class="btn btn-success">Edit</a>
-                                        <a href="delete-product.php?id=<?= $product['id'] ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                <?php endif; ?>
-
-                <div class="logout">
-                    <a href="logout.php">Logout</a>
-                </div>
+        <?php if (empty($products)): ?>
+            <div class="no-products">
+                No products found yet.<br><br>
+                <a href="add-product.php">Add your first product</a> to get started!
             </div>
+        <?php else: ?>
+            <div class="products-list">
+                <?php foreach ($products as $product): ?>
+                    <div class="product-card">
+                        <div class="product-id">#<?= $product['id'] ?></div>
+
+                        <?php if (!empty($product['image'])): ?>
+                            <img src="../assets/uploads/products/<?= htmlspecialchars($product['image']) ?>"
+                                 alt="<?= htmlspecialchars($product['title']) ?>"
+                                 class="product-thumb"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="product-thumb placeholder" style="display:none;">No Image</div>
+                        <?php else: ?>
+                            <div class="product-thumb placeholder">No Image</div>
+                        <?php endif; ?>
+
+                        <div class="product-info">
+                            <div class="product-title"><?= htmlspecialchars($product['title'] ?? 'Untitled') ?></div>
+                            <span class="product-featured <?= $product['is_featured'] ? 'featured-yes' : 'featured-no' ?>">
+                                <?= $product['is_featured'] ? 'Yes' : 'No' ?>
+                            </span>
+                        </div>
+
+                        <div class="actions">
+                            <a href="edit-product.php?id=<?= $product['id'] ?>" class="btn btn-edit">Edit</a>
+                            <a href="delete-product.php?id=<?= $product['id'] ?>"
+                               class="btn btn-delete"
+                               onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="logout">
+            <a href="logout.php">← Logout</a>
         </div>
     </div>
 </body>

@@ -222,7 +222,6 @@
         
         <div class="contact-form-area">
             <h3>Send Us a Direct Message</h3>
-            <p style="color: #777;">(Form elements would go here: Name, Email, Subject, Message, Send Button)</p>
         </div>
 
     </div>
