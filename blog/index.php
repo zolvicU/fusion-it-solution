@@ -24,93 +24,177 @@ try {
         body {
             font-family: 'Inter', sans-serif;
             background: #f9fafb;
-            color: #333;
+            color: #1e293b;
             margin: 0;
-            padding: 40px 20px;
-            line-height: 1.6;
+            line-height: 1.7;
         }
+
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 80px 20px 120px;
         }
+
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
         }
+
         header h1 {
-            font-size: 36px;
-            color: #003087;
-            margin-bottom: 10px;
+            font-size: 48px;
+            font-weight: 700;
+            color: #4361ee;
+            margin: 0 0 16px;
         }
+
         header p {
-            font-size: 18px;
-            color: #555;
+            font-size: 20px;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
         }
+
         .blog-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 40px;
         }
+
         .post-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            transition: all 0.4s ease;
+            border: 1px solid #e2e8f0;
         }
+
         .post-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
         }
+
         .post-image {
             width: 100%;
-            height: 200px;
+            height: 240px;
             object-fit: cover;
         }
+
+        .post-image-placeholder {
+            height: 240px;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f8fbff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
         .post-content {
-            padding: 20px;
+            padding: 32px;
         }
+
         .post-title {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 600;
-            margin: 0 0 10px;
-            color: #003087;
+            margin: 0 0 16px;
+            line-height: 1.3;
         }
+
         .post-title a {
+            color: #1e293b;
             text-decoration: none;
-            color: inherit;
+            transition: color 0.3s ease;
         }
+
         .post-title a:hover {
-            color: #0066ff;
+            color: #4361ee;
         }
+
         .post-meta {
             font-size: 14px;
-            color: #888;
-            margin-bottom: 10px;
+            color: #64748b;
+            margin-bottom: 16px;
         }
+
         .post-excerpt {
-            color: #555;
-            margin-bottom: 15px;
+            font-size: 16px;
+            color: #475569;
+            margin-bottom: 24px;
+            line-height: 1.6;
         }
+
         .read-more {
-            color: #0066ff;
-            font-weight: 500;
+            color: #4361ee;
+            font-weight: 600;
             text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
         }
+
         .read-more:hover {
-            text-decoration: underline;
+            color: #3651d4;
+            transform: translateX(4px);
         }
+
+        .read-more span {
+            font-size: 18px;
+        }
+
         .no-posts {
             text-align: center;
+            padding: 120px 20px;
+            color: #64748b;
             font-size: 18px;
-            color: #666;
-            padding: 60px;
         }
-        footer {
+
+        .back-home {
+            display: block;
             text-align: center;
             margin-top: 80px;
-            padding-top: 40px;
-            border-top: 1px solid #eee;
-            color: #888;
+        }
+
+        .back-home a {
+            color: #4361ee;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-home a:hover {
+            color: #3651d4;
+            transform: translateX(-4px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 60px 16px 100px;
+            }
+
+            header h1 {
+                font-size: 36px;
+            }
+
+            header p {
+                font-size: 18px;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .post-image,
+            .post-image-placeholder {
+                height: 220px;
+            }
         }
     </style>
 </head>
@@ -122,42 +206,48 @@ try {
         </header>
 
         <?php if (empty($posts)): ?>
-            <p class="no-posts">No blog posts yet. Check back soon!</p>
+            <div class="no-posts">
+                <p>No blog posts yet. Check back soon!</p>
+            </div>
         <?php else: ?>
             <div class="blog-grid">
                 <?php foreach ($posts as $post): ?>
                     <article class="post-card">
                         <?php if (!empty($post['image'])): ?>
-                            <img src="../assets/uploads/blog/<?php echo htmlspecialchars($post['image']); ?>" alt="<?php echo htmlspecialchars($post['title']); ?>" class="post-image">
+                            <img src="../assets/uploads/blog/<?= htmlspecialchars($post['image']) ?>" 
+                                 alt="<?= htmlspecialchars($post['title']) ?>" 
+                                 class="post-image">
                         <?php else: ?>
-                            <div style="height:200px; background:#eee; display:flex; align-items:center; justify-content:center; color:#aaa;">No Image</div>
+                            <div class="post-image-placeholder">Featured Image</div>
                         <?php endif; ?>
 
                         <div class="post-content">
                             <h2 class="post-title">
-                                <a href="post.php?slug=<?php echo htmlspecialchars($post['slug']); ?>">
-                                    <?php echo htmlspecialchars($post['title']); ?>
+                                <a href="post.php?slug=<?= htmlspecialchars($post['slug']) ?>">
+                                    <?= htmlspecialchars($post['title']) ?>
                                 </a>
                             </h2>
                             <div class="post-meta">
-                                <?php echo date('F j, Y', strtotime($post['created_at'])); ?>
+                                <?= date('F j, Y', strtotime($post['created_at'])) ?>
                             </div>
                             <p class="post-excerpt">
                                 <?php 
-                                $excerpt = substr(strip_tags($post['content']), 0, 150);
-                                echo htmlspecialchars($excerpt) . (strlen(strip_tags($post['content'])) > 150 ? '...' : '');
+                                $excerpt = strip_tags($post['content']);
+                                echo htmlspecialchars(substr($excerpt, 0, 150)) . (strlen($excerpt) > 150 ? '...' : '');
                                 ?>
                             </p>
-                            <a href="post.php?slug=<?php echo htmlspecialchars($post['slug']); ?>" class="read-more">Read More →</a>
+                            <a href="post.php?slug=<?= htmlspecialchars($post['slug']) ?>" class="read-more">
+                                Read More <span>→</span>
+                            </a>
                         </div>
                     </article>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
 
-        <footer>
-            <p><a href="../index.php">← Back to Home</a></p>
-        </footer>
+        <div class="back-home">
+            <a href="../index.php">← Back to Home</a>
+        </div>
     </div>
 </body>
 </html>

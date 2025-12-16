@@ -100,7 +100,7 @@ body {
 }
 
 .hero-text h1 {
-    font-size: 4.5rem;
+    font-size: 3rem;
     font-weight: 200;
     letter-spacing: -1.5px;
     margin-bottom: 20px;
@@ -386,11 +386,11 @@ body {
     }
 
     .hero h1 {
-        font-size: 2.8rem;
+        font-size: 2rem;
     }
 
     .hero-subtitle {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
 
     .hero-buttons a {
@@ -416,11 +416,11 @@ body {
    10. Content Sections & Footer (Preserved)
    ------------------------------------------------------------ */
 .section h2 {
-    font-size: 2rem;
-    font-weight: 300;
+    font-size: 1.5rem;
+    font-weight: 700;
     color: #111;
     margin-bottom: 30px;
-    font: bold
+    font: bold;
 }
 
 .about-text2,
@@ -470,11 +470,12 @@ footer {
     text-align: center;
     max-width: 800px;
     margin: 0 auto 60px auto;
+    font-size: 1rem;
 }
 
 .category-title {
-    font-size: 1.8rem;
-    color: #0044cc;
+    font-size: 1.5rem;
+    color: #000000;
     /* Matches your brand blue */
     margin: 60px 0 30px 0;
     text-align: left;
@@ -517,7 +518,7 @@ footer {
 }
 
 .service-card h3 {
-    font-size: 1.4rem;
+    font-size: 1rem;
     color: #222;
     margin-bottom: 15px;
     font-weight: 600;
@@ -597,8 +598,8 @@ footer {
 
 .product-content h3 {
     padding: 20px;
-    font-size: 1.5rem;
-    text: bold;
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 
 /* Product Button uses the same style as hero button but without full padding */
@@ -755,7 +756,7 @@ footer {
 
 .vision-section .about-subtitle {
     text-align: center;
-    font-size: 2.2rem;
+    font-size: 1.5rem;
     margin-bottom: 30px;
     color: #000000;
 }
@@ -949,144 +950,6 @@ footer {
 
     .contact-details {
         text-align: center;
-    }
-}
-
-/* Dashboard-Style Blog Add Form - Matches Product Dashboard Exactly */
-.container {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-
-.card {
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    overflow: hidden;
-}
-
-.card-header {
-    background: #4361ee;
-    color: white;
-    padding: 40px 32px;
-    text-align: center;
-}
-
-.card-header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    margin: 0;
-}
-
-.card-header p {
-    margin: 12px 0 0;
-    font-size: 16px;
-    opacity: 0.9;
-}
-
-.card-body {
-    padding: 40px 32px;
-}
-
-.form-group {
-    margin-bottom: 28px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 10px;
-    color: #1e293b;
-    font-size: 15px;
-}
-
-.form-group input[type="text"],
-.form-group textarea,
-.form-group input[type="file"] {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    font-size: 15px;
-    background: white;
-    transition: border 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: #4361ee;
-    box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
-}
-
-.form-group textarea {
-    min-height: 300px;
-    resize: vertical;
-    font-family: 'Inter', sans-serif;
-}
-
-.btn {
-    display: block;
-    width: 100%;
-    padding: 16px;
-    background: #4361ee;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    margin-top: 10px;
-}
-
-.btn:hover {
-    background: #3651d4;
-}
-
-.alert {
-    padding: 16px 20px;
-    border-radius: 12px;
-    margin-bottom: 28px;
-    font-size: 15px;
-    font-weight: 500;
-    text-align: center;
-}
-
-.alert.success {
-    background: #d1fae5;
-    color: #10b981;
-    border: 1px solid #a7f3d0;
-}
-
-.alert.error {
-    background: #fee2e2;
-    color: #dc2626;
-    border: 1px solid #fecaca;
-}
-
-.back-link {
-    display: block;
-    text-align: center;
-    margin-top: 40px;
-    color: #4361ee;
-    font-weight: 500;
-    text-decoration: none;
-    font-size: 15px;
-}
-
-.back-link:hover {
-    text-decoration: underline;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .card-header {
-        padding: 32px 24px;
-    }
-    .card-body {
-        padding: 32px 24px;
     }
 }
 

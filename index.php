@@ -58,7 +58,7 @@
 
         <h3 class="category-title">General Services</h3>
         <div class="services-grid">
-            
+
             <div class="service-card">
                 <div class="icon-wrapper">🛡️</div>
                 <h3>Security & Safety</h3>
@@ -93,7 +93,7 @@
 
         <h3 class="category-title">System Services</h3>
         <div class="services-grid">
-            
+
             <div class="service-card">
                 <div class="icon-wrapper">💻</div>
                 <h3>Development</h3>
@@ -118,6 +118,78 @@
     </div>
 </section>
 
+<!-- Latest Blog Posts Section -->
+<section id="latest-blog" style="padding: 80px 20px; background: #f9fafb;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto;">
+        <h2 style="text-align: center; font-size: 32px; margin-bottom: 50px; color: #003087;">
+            Latest from Our Blog
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+            <?php
+            require_once 'config/database.php';
+
+            try {
+                $stmt = $pdo->query("SELECT * FROM blog_posts ORDER BY created_at DESC LIMIT 3");
+                $latest_posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                if (empty($latest_posts)) {
+                    echo '<p style="grid-column: 1 / -1; text-align: center; color: #666; font-size: 18px;">No blog posts yet. Check back soon!</p>';
+                } else {
+                    foreach ($latest_posts as $post) {
+                        $excerpt = substr(strip_tags($post['content']), 0, 150) . (strlen(strip_tags($post['content'])) > 160 ? '...' : '');
+            ?>
+                        <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s;">
+                            <?php if (!empty($post['image'])): ?>
+                                <div style="height: 200px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                    <img src="assets/uploads/blog/<?php echo htmlspecialchars($post['image']); ?>"
+                                        alt="<?php echo htmlspecialchars($post['title']); ?>"
+                                        style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                                </div>
+                            <?php else: ?>
+                                <div style="height: 200px; background: #e5e7eb; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 18px;">
+                                    No Image
+                                </div>
+                            <?php endif; ?>
+
+                            <div style="padding: 24px;">
+                                <h3 style="font-size: 20px; margin: 0 0 12px; font-weight: 600;">
+                                    <a href="blog/post.php?slug=<?php echo htmlspecialchars($post['slug']); ?>"
+                                        style="color: #003087; text-decoration: none;">
+                                        <?php echo htmlspecialchars($post['title']); ?>
+                                    </a>
+                                </h3>
+                                <p style="color: #666; font-size: 15px; margin-bottom: 16px;">
+                                    <?php echo htmlspecialchars($excerpt); ?>
+                                </p>
+                                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #888;">
+                                    <span><?php echo date('F j, Y', strtotime($post['created_at'])); ?></span>
+                                    <a href="blog/post.php?slug=<?php echo htmlspecialchars($post['slug']); ?>"
+                                        style="color: #0066ff; font-weight: 500; text-decoration: none;">
+                                        Read More →
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+            <?php
+                    }
+                }
+            } catch (Exception $e) {
+                echo '<p style="grid-column: 1 / -1; text-align: center; color: #ef4444;">Error loading blog posts.</p>';
+            }
+            ?>
+        </div>
+
+        <?php if (!empty($latest_posts)): ?>
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="blog/index.php" style="background: #0066ff; color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px;">
+                    View All Posts →
+                </a>
+            </div>
+        <?php endif; ?>
+    </div>
+</section>
+
 <section id="about" class="section about-section">
     <div class="container">
         <h2 class="about-main-title">About Fusion IT Solution</h2>
@@ -125,8 +197,8 @@
         <div class="about-grid">
             <div class="mission-column">
                 <p class="about-text">
-                    <b>Fusion IT Solution is an IT solutions provider in the Philippines, empowering 
-                    businesses with over 15 years of expertise in:</b> 
+                    <b>Fusion IT Solution is an IT solutions provider in the Philippines, empowering
+                        businesses with over 15 years of expertise in:</b>
                 </p>
                 <ul class="about-list">
                     <li>IT Network Solutions: From basic troubleshooting to complex network infrastructure design, implementation, and management.</li>
@@ -150,8 +222,8 @@
         <div class="vision-section">
             <h3 class="about-subtitle">Our Journey:</h3>
             <p class="about-text2 vision-text">
-                Founded in 2006, Fusion IT Solution has grown from offering technical support and accounting software in Quezon City to serving clients across 
-                Luzon, Visayas, and Mindanao. Milestones include:<br> 
+                Founded in 2006, Fusion IT Solution has grown from offering technical support and accounting software in Quezon City to serving clients across
+                Luzon, Visayas, and Mindanao. Milestones include:<br>
                 • Expanding operations: Reaching Cebu City, Davao City, and Laoag City.<br>
                 • Establishing leadership: Recognized as a leader in CCTV security solutions in Southern Luzon.<br>
                 • Serving global brands: Becoming a third-party supplier for a multinational diagnostic imaging leader.
@@ -183,35 +255,38 @@
         <h2 class="contact-main-title">Get in Touch with Fusion IT</h2>
 
         <div class="contact-grid">
-            
+
             <div class="contact-info">
                 <p style="font-size: 1.1rem; color: #555; margin-bottom: 40px;">
                     Ready to start your project or need immediate IT support? Contact us today.
                 </p>
 
                 <div class="contact-item">
-                    <div class="contact-icon">✉</div> <div class="contact-details">
+                    <div class="contact-icon">✉</div>
+                    <div class="contact-details">
                         <strong>Email Address</strong>
                         <a href="mailto:admin@fusionitsolution.com">admin@fusionitsolution.com</a>
                     </div>
                 </div>
 
                 <div class="contact-item">
-                    <div class="contact-icon">✆</div> <div class="contact-details">
+                    <div class="contact-icon">✆</div>
+                    <div class="contact-details">
                         <strong>Phone Number</strong>
                         <a href="tel:+639183114656">+0918 311 4656</a>
                     </div>
                 </div>
 
                 <div class="contact-item">
-                    <div class="contact-icon">⌂</div> <div class="contact-details">
+                    <div class="contact-icon">⌂</div>
+                    <div class="contact-details">
                         <strong>Office Location</strong>
                         <span class="spam">0354 Calitcalit, San Juan, Philippines</span>
                     </div>
                 </div>
-                
+
             </div>
-            
+
             <div class="contact-map">
                 <div class="map-placeholder">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3682.531920068295!2d121.39772347485733!3d13.82549498657407!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd3974baffa653%3A0xd23f9e8f1e18b597!2sFusion%20I.T.%20Solutions!5e1!3m2!1sen!2sph!4v1765165343291!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -219,9 +294,9 @@
             </div>
 
         </div>
-        
+
         <div class="contact-form-area">
-            <h3>Send Us a Direct Message</h3>
+            <h2>Send Us a Direct Message</h2>
         </div>
 
     </div>

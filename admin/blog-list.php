@@ -39,18 +39,11 @@ if (isset($_GET['msg'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Posts | Admin</title>
-    <!-- Load Inter with Light weight -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
     <style>
-        /* ==============================================
-   Full style.css - Unified Professional Admin & Frontend Design
-   Matches your Dashboard (solid blue header, clean cards, elegant spacing)
-   Uses Inter font with Light (300) for body, Medium/Bold for emphasis
-   ============================================== */
-
-        /* Root Variables */
         :root {
             --primary: #4361ee;
             --primary-light: #4895ef;
@@ -69,51 +62,22 @@ if (isset($_GET['msg'])) {
             --radius-sm: 12px;
         }
 
-        /* Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
             font-weight: 300;
-            /* Light for elegant feel */
-            line-height: 1.6;
+            1½ line-height: 1.6;
             color: var(--gray-800);
             background: #f9fafb;
+            margin: 0;
+            padding: 20px;
         }
 
-        /* Typography */
-        h1,
-        h2,
-        h3,
-        h4 {
-            font-weight: 600;
-            line-height: 1.3;
-        }
-
-        p,
-        small,
-        .post-meta,
-        .no-items p {
-            font-weight: 300;
-            color: var(--gray-700);
-        }
-
-        small {
-            font-size: 14px;
-        }
-
-        /* Container */
         .container {
             max-width: 1100px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        /* Card Base */
         .card {
             background: white;
             border-radius: var(--radius);
@@ -121,7 +85,6 @@ if (isset($_GET['msg'])) {
             overflow: hidden;
         }
 
-        /* Header (used in Dashboard, Add/Edit, Blog List) */
         .card-header {
             background: var(--primary);
             color: white;
@@ -142,12 +105,10 @@ if (isset($_GET['msg'])) {
             font-weight: 400;
         }
 
-        /* Body */
         .card-body {
             padding: 40px 32px;
         }
 
-        /* Buttons */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -194,7 +155,6 @@ if (isset($_GET['msg'])) {
             background: #b91c1c;
         }
 
-        /* Alerts */
         .alert {
             padding: 16px 20px;
             border-radius: var(--radius-sm);
@@ -217,90 +177,14 @@ if (isset($_GET['msg'])) {
             border-color: #fecaca;
         }
 
-        /* Form Styles (Add/Edit Blog/Product) */
-        .form-group {
-            margin-bottom: 28px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 10px;
-            color: var(--gray-800);
-            font-size: 15px;
-        }
-
-        .form-group input[type="text"],
-        .form-group textarea,
-        .form-group input[type="file"] {
-            width: 100%;
-            padding: 14px 16px;
-            border: 1px solid var(--gray-300);
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            background: white;
-            transition: border 0.3s ease;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
-        }
-
-        .form-group textarea {
-            min-height: 300px;
-            resize: vertical;
-        }
-
-        /* File Upload */
-        .file-group {
-            margin: 40px 0;
-        }
-
-        .file-input-label {
-            font-size: 15px;
-            margin-bottom: 10px;
-            color: var(--gray-800);
-            font-weight: 500;
-        }
-
-        .file-input-label small {
-            color: var(--gray-600);
-        }
-
-        .file-input {
-            display: block;
-            width: 100%;
-            padding: 40px;
-            background: white;
-            border: 2px dashed var(--gray-300);
-            border-radius: var(--radius);
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--gray-600);
-            font-size: 15px;
-        }
-
-        .file-input:hover {
-            border-color: var(--primary);
-            background: #f0f7ff;
-            color: var(--primary);
-        }
-
-        /* Product & Blog List Cards */
-        .posts-list,
-        .products-list {
+        .posts-list {
             display: flex;
             flex-direction: column;
             gap: 16px;
             margin-top: 32px;
         }
 
-        .post-card,
-        .product-card {
+        .post-card {
             background: white;
             border-radius: var(--radius-sm);
             padding: 24px;
@@ -311,22 +195,19 @@ if (isset($_GET['msg'])) {
             transition: all 0.2s ease;
         }
 
-        .post-card:hover,
-        .product-card:hover {
+        .post-card:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow-lg);
         }
 
-        .post-id,
-        .product-id {
+        .post-id {
             font-size: 14px;
             font-weight: 600;
             color: var(--gray-600);
             min-width: 50px;
         }
 
-        .post-thumb,
-        .product-thumb {
+        .post-thumb {
             width: 100px;
             height: 80px;
             border-radius: var(--radius-sm);
@@ -335,8 +216,7 @@ if (isset($_GET['msg'])) {
             flex-shrink: 0;
         }
 
-        .post-thumb img,
-        .product-thumb img {
+        .post-thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -353,13 +233,11 @@ if (isset($_GET['msg'])) {
             font-size: 13px;
         }
 
-        .post-info,
-        .product-info {
+        .post-info {
             flex: 1;
         }
 
-        .post-title,
-        .product-title {
+        .post-title {
             font-size: 17px;
             font-weight: 500;
             color: var(--gray-800);
@@ -381,14 +259,11 @@ if (isset($_GET['msg'])) {
             font-size: 13px;
         }
 
-        /* Actions */
-        .post-actions,
-        .product-actions {
+        .post-actions {
             display: flex;
             gap: 12px;
         }
 
-        /* No Items */
         .no-items {
             text-align: center;
             padding: 80px 20px;
@@ -406,7 +281,6 @@ if (isset($_GET['msg'])) {
             text-decoration: underline;
         }
 
-        /* Back / Logout Link */
         .back-link,
         .logout a {
             display: block;
@@ -423,28 +297,13 @@ if (isset($_GET['msg'])) {
             text-decoration: underline;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 16px;
-            }
-
-            .card-header {
-                padding: 32px 24px;
-            }
-
-            .card-body {
-                padding: 32px 24px;
-            }
-
-            .post-card,
-            .product-card {
+            .post-card {
                 flex-direction: column;
                 align-items: flex-start;
             }
 
-            .post-actions,
-            .product-actions {
+            .post-actions {
                 width: 100%;
                 justify-content: flex-end;
             }
@@ -469,7 +328,7 @@ if (isset($_GET['msg'])) {
                     <div class="alert error"><?= htmlspecialchars($error) ?></div>
                 <?php endif; ?>
 
-                <div class="section-actions">
+                <div style="margin-bottom: 32px;">
                     <a href="add-blog.php" class="btn primary">+ Add New Post</a>
                 </div>
 
@@ -486,10 +345,7 @@ if (isset($_GET['msg'])) {
 
                                 <div class="post-thumb">
                                     <?php if (!empty($post['image'])): ?>
-                                        <img src="../assets/uploads/blog/<?= htmlspecialchars($post['image']) ?>"
-                                            alt="<?= htmlspecialchars($post['title']) ?>"
-                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                        <div class="placeholder">No Image</div>
+                                        <img src="../assets/uploads/blog/<?= htmlspecialchars($post['image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>">
                                     <?php else: ?>
                                         <div class="placeholder">No Image</div>
                                     <?php endif; ?>
@@ -505,9 +361,7 @@ if (isset($_GET['msg'])) {
 
                                 <div class="post-actions">
                                     <a href="edit-blog.php?id=<?= $post['id'] ?>" class="btn edit">Edit</a>
-                                    <a href="delete-blog.php?id=<?= $post['id'] ?>"
-                                        class="btn delete"
-                                        onclick="return confirm('Delete this post permanently?')">Delete</a>
+                                    <a href="delete-blog.php?id=<?= $post['id'] ?>" class="btn delete" onclick="return confirm('Delete this post permanently?')">Delete</a>
                                 </div>
                             </div>
                         <?php endforeach; ?>
@@ -515,7 +369,7 @@ if (isset($_GET['msg'])) {
                 <?php endif; ?>
 
                 <div class="logout">
-                    <a href="logout.php">← Logout</a>
+                    <a href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

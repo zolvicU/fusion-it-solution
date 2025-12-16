@@ -33,65 +33,111 @@ if (empty($slug)) {
         body {
             font-family: 'Inter', sans-serif;
             background: #f9fafb;
-            color: #333;
+            color: #1e293b;
             margin: 0;
-            padding: 40px 20px;
             line-height: 1.8;
         }
+
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
+            padding: 80px 20px 120px;
         }
+
         header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
+
         header h1 {
-            font-size: 36px;
-            color: #003087;
-            margin-bottom: 10px;
+            font-size: 42px;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 16px;
+            line-height: 1.2;
         }
+
         .post-meta {
-            font-size: 16px;
-            color: #666;
-            margin-bottom: 30px;
+            font-size: 15px;
+            color: #64748b;
+            margin-bottom: 40px;
         }
+
         .post-image {
             width: 100%;
             max-height: 500px;
             object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
         }
+
         .post-content {
             font-size: 18px;
-            color: #444;
+            color: #475569;
         }
+
         .post-content p {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
+
+        .post-content h2, .post-content h3 {
+            color: #1e293b;
+            margin: 40px 0 20px;
+        }
+
         .error {
             text-align: center;
+            padding: 120px 20px;
+            color: #dc2626;
             font-size: 20px;
-            color: #ef4444;
-            padding: 60px;
         }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: #4361ee;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+        }
+
+        .back-btn:hover {
+            background: #3651d4;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+        }
+
         footer {
             text-align: center;
-            margin-top: 80px;
+            margin-top: 60px;
             padding-top: 40px;
-            border-top: 1px solid #eee;
-            color: #888;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 14px;
         }
-        .back-link {
-            display: inline-block;
-            margin-top: 40px;
-            color: #0066ff;
+
+        footer a {
+            color: #4361ee;
             text-decoration: none;
             font-weight: 500;
         }
-        .back-link:hover {
+
+        footer a:hover {
             text-decoration: underline;
         }
     </style>
@@ -102,7 +148,6 @@ if (empty($slug)) {
             <div class="error">
                 <h2>Post Not Found</h2>
                 <p><?= htmlspecialchars($error) ?></p>
-                <a href="index.php">← Back to Blog!</a>
             </div>
         <?php else: ?>
             <header>
@@ -113,19 +158,22 @@ if (empty($slug)) {
             </header>
 
             <?php if (!empty($post['image'])): ?>
-                <img src="../assets/uploads/blog/<?= htmlspecialchars($post['image']) ?>" alt="<?= htmlspecialchars($post['title']) ?>" class="post-image">
+                <img src="../assets/uploads/blog/<?= htmlspecialchars($post['image']) ?>" 
+                     alt="<?= htmlspecialchars($post['title']) ?>" 
+                     class="post-image">
             <?php endif; ?>
 
             <div class="post-content">
-                <?= nl2br(htmlspecialchars($post['content'])) ?>
+                <?= nl2br(htmlspecialchars_decode($post['content'])) ?>
             </div>
 
-            <a href="index.php" class="back-link">← Back to Blog!</a>
+            <div class="navigation">
+                <a href="index.php" class="back-btn">← Back to Blog</a>
+                <a href="../index.php" class="back-btn">← Back to Home</a>
+            </div>
         <?php endif; ?>
 
-        <footer>
-            <p><a href="../index.php">← Back to Home</a></p>
-        </footer>
+        
     </div>
 </body>
 </html>
