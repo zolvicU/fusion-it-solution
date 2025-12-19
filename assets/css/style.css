@@ -851,6 +851,30 @@ footer {
     text-align: left;
 }
 
+.contact-cta {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.contact-btn {
+    display: inline-block;
+    padding: 16px 36px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    background: linear-gradient(135deg, #0047ff, #007bff);
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(0, 71, 255, 0.3);
+}
+
+.contact-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 71, 255, 0.45);
+}
+
+
 /* Left Column: Contact Information */
 .contact-info {
     padding-right: 20px;
@@ -952,4 +976,5 @@ footer {
         text-align: center;
     }
 }
+
 

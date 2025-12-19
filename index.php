@@ -295,9 +295,12 @@
 
         </div>
 
-        <div class="contact-form-area">
-            <h2>Send Us a Direct Message</h2>
+        <div class="contact-cta">
+            <a href="contact.php" class="contact-btn">
+                Go to Contact Page
+            </a>
         </div>
+
 
     </div>
 </section>

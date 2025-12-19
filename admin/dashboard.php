@@ -8,7 +8,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 require_once '../config/database.php';
 
-// Fetch all products
+/* Fetch products */
 try {
     $stmt = $pdo->query("SELECT * FROM products ORDER BY id DESC");
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -16,26 +16,33 @@ try {
     $error = "Failed to load products: " . $e->getMessage();
 }
 
-// Success message from URL
+/* Fetch message COUNT only */
+try {
+    $stmt = $pdo->query("SELECT COUNT(*) FROM contact_messages WHERE is_read = 0");
+    $unread_count = $stmt->fetchColumn();
+} catch (Exception $e) {
+    $unread_count = 0;
+}
+
+/* Success messages */
 $success_msg = '';
 if (isset($_GET['msg'])) {
-    switch ($_GET['msg']) {
-        case 'added':   $success_msg = "Product added successfully!"; break;
-        case 'updated': $success_msg = "Product updated successfully!"; break;
-        case 'deleted': $success_msg = "Product deleted successfully!"; break;
-    }
+    if ($_GET['msg'] === 'added') $success_msg = "Product added successfully!";
+    if ($_GET['msg'] === 'updated') $success_msg = "Product updated successfully!";
+    if ($_GET['msg'] === 'deleted') $success_msg = "Product deleted successfully!";
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Products</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --primary: #4361ee;
@@ -47,14 +54,18 @@ if (isset($_GET['msg'])) {
             --gray-300: #cbd5e1;
             --gray-600: #475569;
             --gray-800: #1e293b;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
-            --shadow: 0 4px 12px rgba(0,0,0,0.08);
-            --shadow-lg: 0 20px 40px rgba(0,0,0,0.08);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08);
             --radius: 16px;
             --radius-sm: 12px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -67,6 +78,7 @@ if (isset($_GET['msg'])) {
         .container {
             max-width: 1100px;
             margin: 0 auto;
+            position: relative;
         }
 
         .header {
@@ -97,6 +109,13 @@ if (isset($_GET['msg'])) {
             font-weight: 500;
         }
 
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
         .add-btn {
             display: inline-flex;
             align-items: center;
@@ -111,7 +130,6 @@ if (isset($_GET['msg'])) {
             text-decoration: none;
             box-shadow: var(--shadow);
             transition: all 0.3s ease;
-            margin-bottom: 32px;
         }
 
         .add-btn:hover {
@@ -259,28 +277,141 @@ if (isset($_GET['msg'])) {
             text-decoration: underline;
         }
 
+        /* Logout Button */
+        .logout-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: var(--danger);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(239, 68, 68, 0.3);
+        }
+
         .logout {
             text-align: center;
             margin-top: 48px;
         }
 
-        .logout a {
-            color: var(--primary);
-            font-weight: 500;
-            text-decoration: none;
-            font-size: 15px;
+        /* Messages Icon & Panel */
+        .top-bar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
-        .logout a:hover {
-            text-decoration: underline;
+        .messages-icon img {
+            width: 50px;
+            height: 55px;
+            object-fit: contain;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-top: 12rem;
+        }
+
+        .messages-icon img:hover {
+            transform: scale(1.08);
+        }
+
+
+        .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .messages-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+            transition: right 0.4s ease;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .messages-panel.open {
+            right: 0;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .panel-header h3 {
+            font-size: 20px;
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray-600);
+        }
+
+        .message-item {
+            background: var(--gray-100);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+
+        .message-item strong {
+            color: var(--primary);
         }
     </style>
 </head>
+
 <body>
+
     <div class="container">
+
         <div class="header">
             <h1>Admin Dashboard</h1>
             <p>Welcome back, <strong><?= htmlspecialchars($_SESSION['admin_username'] ?? 'Admin') ?></strong></p>
+            <!-- Message Icon -->
+            <div class="top-bar">
+                <a href="messages.php" class="messages-icon" title="View Messages">
+                    <img src="../assets/icons/messages.png" alt="Messages">
+                    <?php if ($unread_count > 0): ?>
+                        <span class="badge"><?= $unread_count ?></span>
+                    <?php endif; ?>
+                </a>
+            </div>
         </div>
 
         <div class="section-title">
@@ -297,14 +428,17 @@ if (isset($_GET['msg'])) {
             </div>
         <?php endif; ?>
 
-        <a href="add-product.php" class="add-btn">
-            + Add New Product
-        </a>
+        <div class="action-buttons">
+            <a href="add-product.php" class="add-btn">+ Add New Product</a>
+            <a href="blog-list.php" class="add-btn" style="background:linear-gradient(135deg,#10b981,#059669);">
+                Manage Blog Posts
+            </a>
+        </div>
 
         <?php if (empty($products)): ?>
             <div class="no-products">
                 No products found yet.<br><br>
-                <a href="add-product.php">Add your first product</a> to get started!
+                <a href="add-product.php">Add your first product</a>
             </div>
         <?php else: ?>
             <div class="products-list">
@@ -314,16 +448,13 @@ if (isset($_GET['msg'])) {
 
                         <?php if (!empty($product['image'])): ?>
                             <img src="../assets/uploads/products/<?= htmlspecialchars($product['image']) ?>"
-                                 alt="<?= htmlspecialchars($product['title']) ?>"
-                                 class="product-thumb"
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="product-thumb placeholder" style="display:none;">No Image</div>
+                                class="product-thumb">
                         <?php else: ?>
                             <div class="product-thumb placeholder">No Image</div>
                         <?php endif; ?>
 
                         <div class="product-info">
-                            <div class="product-title"><?= htmlspecialchars($product['title'] ?? 'Untitled') ?></div>
+                            <div class="product-title"><?= htmlspecialchars($product['title']) ?></div>
                             <span class="product-featured <?= $product['is_featured'] ? 'featured-yes' : 'featured-no' ?>">
                                 <?= $product['is_featured'] ? 'Yes' : 'No' ?>
                             </span>
@@ -331,9 +462,8 @@ if (isset($_GET['msg'])) {
 
                         <div class="actions">
                             <a href="edit-product.php?id=<?= $product['id'] ?>" class="btn btn-edit">Edit</a>
-                            <a href="delete-product.php?id=<?= $product['id'] ?>"
-                               class="btn btn-delete"
-                               onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                            <a href="delete-product.php?id=<?= $product['id'] ?>" class="btn btn-delete"
+                                onclick="return confirm('Delete this product?')">Delete</a>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -341,8 +471,11 @@ if (isset($_GET['msg'])) {
         <?php endif; ?>
 
         <div class="logout">
-            <a href="logout.php">← Logout</a>
+            <a href="logout.php" class="logout-btn">Logout</a>
         </div>
+
     </div>
+
 </body>
+
 </html>

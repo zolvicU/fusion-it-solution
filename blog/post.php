@@ -50,7 +50,7 @@ if (empty($slug)) {
         }
 
         header h1 {
-            font-size: 42px;
+            font-size: 35px;
             font-weight: 700;
             color: #1e293b;
             margin: 0 0 16px;

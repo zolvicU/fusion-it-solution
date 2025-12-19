@@ -40,10 +40,10 @@ try {
             margin-bottom: 80px;
         }
 
-        header h1 {
-            font-size: 48px;
+        header h2 {
+            font-size: 35px;
             font-weight: 700;
-            color: #4361ee;
+            color: #000000ff;
             margin: 0 0 16px;
         }
 
@@ -127,6 +127,7 @@ try {
 
         .read-more {
             color: #4361ee;
+            font-size: 1rem;
             font-weight: 600;
             text-decoration: none;
             display: inline-flex;
@@ -151,26 +152,31 @@ try {
             font-size: 18px;
         }
 
-        .back-home {
-            display: block;
-            text-align: center;
-            margin-top: 80px;
-        }
-
-        .back-home a {
-            color: #4361ee;
-            font-weight: 600;
-            text-decoration: none;
-            font-size: 16px;
+        /* Updated Back to Home Button */
+        .back-home-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            padding: 12px 24px;
+            background: #4361ee;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
         }
 
-        .back-home a:hover {
-            color: #3651d4;
-            transform: translateX(-4px);
+        .back-home-btn:hover {
+            background: #3651d4;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 80px;
         }
 
         /* Responsive */
@@ -179,8 +185,8 @@ try {
                 padding: 60px 16px 100px;
             }
 
-            header h1 {
-                font-size: 36px;
+            header h2 {
+                font-size: 30px;
             }
 
             header p {
@@ -201,7 +207,7 @@ try {
 <body>
     <div class="container">
         <header>
-            <h1>Our Blog</h1>
+            <h2>Our Blog</h2>
             <p>Latest insights, tips, and news from Fusion I.T. Solution</p>
         </header>
 
@@ -246,7 +252,7 @@ try {
         <?php endif; ?>
 
         <div class="back-home">
-            <a href="../index.php">← Back to Home</a>
+            <a href="../index.php" class="back-home-btn">← Back to Home</a>
         </div>
     </div>
 </body>

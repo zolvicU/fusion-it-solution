@@ -65,7 +65,7 @@ if (isset($_GET['msg'])) {
         body {
             font-family: 'Inter', sans-serif;
             font-weight: 300;
-            1½ line-height: 1.6;
+            line-height: 1.6;
             color: var(--gray-800);
             background: #f9fafb;
             margin: 0;
@@ -109,6 +109,13 @@ if (isset($_GET['msg'])) {
             padding: 40px 32px;
         }
 
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
         .btn {
             display: inline-flex;
             align-items: center;
@@ -124,12 +131,23 @@ if (isset($_GET['msg'])) {
         }
 
         .btn.primary {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
         }
 
         .btn.primary:hover {
             background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn.secondary {
+            background: #f1f5f9;
+            color: var(--primary);
+            border: 1px solid var(--primary-light);
+        }
+
+        .btn.secondary:hover {
+            background: #e2e8f0;
             transform: translateY(-2px);
         }
 
@@ -281,8 +299,7 @@ if (isset($_GET['msg'])) {
             text-decoration: underline;
         }
 
-        .back-link,
-        .logout a {
+        .back-link {
             display: block;
             text-align: center;
             margin-top: 40px;
@@ -292,9 +309,29 @@ if (isset($_GET['msg'])) {
             font-size: 15px;
         }
 
-        .back-link:hover,
-        .logout a:hover {
+        .back-link:hover {
             text-decoration: underline;
+        }
+
+        .back-to-dashboard-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: #5270f3ff;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+        }
+
+        .back-to-dashboard-btn:hover {
+            background: #3651d4;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -328,7 +365,7 @@ if (isset($_GET['msg'])) {
                     <div class="alert error"><?= htmlspecialchars($error) ?></div>
                 <?php endif; ?>
 
-                <div style="margin-bottom: 32px;">
+                <div class="action-buttons">
                     <a href="add-blog.php" class="btn primary">+ Add New Post</a>
                 </div>
 
@@ -368,8 +405,9 @@ if (isset($_GET['msg'])) {
                     </div>
                 <?php endif; ?>
 
-                <div class="logout">
-                    <a href="logout.php">Logout</a>
+                <!-- Back to Dashboard Button at bottom (replacing Logout) -->
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="dashboard.php" class="back-to-dashboard-btn">← Back to Dashboard</a>
                 </div>
             </div>
         </div>
