@@ -7,17 +7,15 @@ if (!isset($_SESSION['admin_logged_in'])) {
 }
 
 require_once '../config/database.php';
+
 // Delete single message
 if (isset($_GET['delete'])) {
     $id = (int) $_GET['delete'];
-
     $stmt = $pdo->prepare("DELETE FROM contact_messages WHERE id = ?");
     $stmt->execute([$id]);
-
     header("Location: messages.php");
     exit;
 }
-
 
 if (isset($_POST['mark_all_read'])) {
     $pdo->query("UPDATE contact_messages SET is_read = 1");
@@ -25,6 +23,12 @@ if (isset($_POST['mark_all_read'])) {
     exit;
 }
 
+if (isset($_GET['ajax_read'])) {
+    $id = (int)$_GET['ajax_read'];
+    $stmt = $pdo->prepare("UPDATE contact_messages SET is_read = 1 WHERE id = ?");
+    $stmt->execute([$id]);
+    exit;
+}
 
 $stmt = $pdo->query("SELECT * FROM contact_messages ORDER BY created_at DESC");
 $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -54,17 +58,13 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
             --gray-600: #475569;
             --gray-800: #1e293b;
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.08);
             --radius: 16px;
-            --radius-sm: 12px;
+            --radius-sm: 10px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -74,208 +74,142 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
             padding: 24px;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
+        .container { max-width: 900px; margin: 0 auto; }
 
-        /* Header */
+        /* Header preserved */
         .header {
             background: var(--primary);
             color: white;
-            padding: 40px 32px;
+            padding: 30px 32px;
             text-align: center;
             border-radius: var(--radius);
             box-shadow: var(--shadow-lg);
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
-        .header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
+        .header h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+        .header p { font-size: 14px; opacity: 0.9; }
 
-        .header p {
-            font-size: 16px;
-            opacity: 0.95;
-        }
-
-        /* Back Button */
-        /* Container to handle the alignment */
         .button-wrapper {
             display: flex;
-            justify-content: flex-end;
-            /* Pushes the button to the right */
-            width: 100%;
-            padding: 0 20px;
-            /* Optional: adds some breathing room from the screen edge */
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
         }
 
         .back-btn {
-            display: inline-block;
-            position: relative;
-            border-radius: 5px;
-            background-color: #2151ffff;
-            border: none;
-            color: #fff;
-            text-align: center;
-            font-size: 15px;
-            padding: 10px 20px;
-            /* Even padding for better look */
-            width: auto;
-            /* Changed to auto so it fits the text nicely */
-            min-width: 180px;
-            /* Ensures it's not too small */
-            transition: all 0.5s;
-            cursor: pointer;
-            margin: 20px 0;
-            /* Adjusted margins to avoid layout gaps */
-            box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.7);
             text-decoration: none;
-            font-weight: 400;
-            /* Slightly heavier weight for better readability */
-        }
-
-        .back-btn:after {
-            content: '«';
-            position: absolute;
-            opacity: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            /* Perfectly centers the arrow vertically */
-            left: -20px;
-            transition: 0.5s;
-        }
-
-        .back-btn:hover {
-            padding-left: 45px;
-            padding-right: 15px;
-        }
-
-        .back-btn:hover:after {
-            opacity: 1;
-            left: 20px;
-        }
-
-        /* Messages */
-        .messages-list {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 600;
             display: flex;
-            flex-direction: column;
-            gap: 16px;
+            align-items: center;
+            gap: 5px;
         }
+
+        .mark-read-btn {
+            background: white;
+            color: var(--gray-800);
+            border: 1px solid var(--gray-200);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mark-read-btn:hover { background: var(--gray-100); border-color: var(--gray-300); }
+
+        /* SLIM MESSAGES LIST */
+        .messages-list { display: flex; flex-direction: column; gap: 12px; }
 
         .message-card {
             background: white;
             border-radius: var(--radius-sm);
             box-shadow: var(--shadow);
-            padding: 20px 24px;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            padding: 16px 20px;
+            border: 1px solid var(--gray-200);
+            border-left: 4px solid transparent;
+            position: relative;
+            transition: all 0.2s ease;
         }
 
-        .message-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
+        .message-card.unread {
+            border-left-color: var(--primary);
+            background: #fdfdff;
         }
+
+        .message-card.read { opacity: 0.85; }
+
+        .message-card:hover { border-color: var(--primary-light); transform: translateX(2px); }
 
         .message-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 8px;
+            align-items: flex-start;
+            margin-bottom: 6px;
         }
 
-        .sender {
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 16px;
-        }
-
-        .email {
-            color: var(--gray-600);
-            font-size: 14px;
-        }
-
-        .date {
-            font-size: 13px;
-            color: var(--gray-600);
-        }
+        .sender-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+        
+        .sender { font-weight: 600; color: var(--gray-800); font-size: 15px; }
+        .unread-dot { color: var(--primary); font-size: 12px; }
+        .email { color: var(--gray-600); font-size: 13px; font-weight: 400; }
+        
+        .date { font-size: 12px; color: var(--gray-600); }
 
         .message-body {
-            margin-top: 10px;
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.6;
             color: var(--gray-800);
-        }
-
-        /* Empty State */
-        .no-messages {
-            background: white;
-            padding: 60px 20px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            color: var(--gray-600);
-            font-size: 16px;
-        }
-
-        /* Responsive */
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 22px;
-            }
-
-            .message-card {
-                padding: 18px;
-            }
-
-            .sender {
-                font-size: 15px;
-            }
-        }
-
-        .mark-read-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 22px;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: var(--shadow-sm);
-            transition: background 0.2s ease, transform 0.2s ease;
-        }
-
-        .mark-read-btn:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
+            max-width: 90%;
         }
 
         .message-actions {
-            margin-top: 12px;
-            text-align: right;
+            position: absolute;
+            top: 16px;
+            right: 20px;
         }
 
         .delete-btn {
-            background: var(--danger);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
+            color: var(--gray-300);
             text-decoration: none;
-            transition: background 0.2s ease, transform 0.2s ease;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
         }
 
-        .delete-btn:hover {
-            background: #dc2626;
-            transform: translateY(-1px);
+        .delete-btn:hover { color: var(--danger); background: #fee2e2; }
+
+        .toggle-text-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            margin-top: 4px;
+            padding: 0;
+            text-decoration: underline;
         }
 
-        .message-card.read {
-            opacity: 0.75;
+        .full-message { display: none; }
+
+        .no-messages {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            text-align: center;
+            color: var(--gray-600);
+            border: 2px dashed var(--gray-200);
+        }
+
+        @media (max-width: 600px) {
+            .sender-meta { flex-direction: column; align-items: flex-start; gap: 2px; }
+            .message-actions { position: static; margin-top: 10px; text-align: right; }
         }
     </style>
 </head>
@@ -283,22 +217,19 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 
     <div class="container">
-
         <div class="header">
             <h1>Contact Messages</h1>
-            <p>All inquiries sent from the website</p>
+            <p>Admin Control Panel</p>
         </div>
 
         <div class="button-wrapper">
-            <a href="dashboard.php" class="back-btn">Back to Dashboard</a>
+            <a href="dashboard.php" class="back-btn">« Back to Dashboard</a>
+            <form method="POST">
+                <button type="submit" name="mark_all_read" class="mark-read-btn">
+                    Mark all as read
+                </button>
+            </form>
         </div>
-
-        <form method="POST" style="margin-bottom: 24px;">
-            <button type="submit" name="mark_all_read" class="mark-read-btn">
-                Mark all as read
-            </button>
-        </form>
-
 
         <?php if (empty($messages)): ?>
             <div class="no-messages">
@@ -306,36 +237,65 @@ $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
         <?php else: ?>
             <div class="messages-list">
-                <?php foreach ($messages as $msg): ?>
-                    <div class="message-card">
+                <?php foreach ($messages as $msg):
+                    $is_unread = isset($msg['is_read']) && $msg['is_read'] == 0;
+                    $full_msg = htmlspecialchars($msg['message']);
+                    $is_long = strlen($full_msg) > 160;
+                    $preview = $is_long ? substr($full_msg, 0, 160) . "..." : $full_msg;
+                ?>
+                    <div class="message-card <?= $is_unread ? 'unread' : 'read' ?>" id="card-<?= $msg['id'] ?>">
                         <div class="message-header">
-                            <div>
-                                <div class="sender"><?= htmlspecialchars($msg['name']) ?></div>
-                                <div class="email"><?= htmlspecialchars($msg['email']) ?></div>
+                            <div class="sender-meta">
+                                <span class="sender"><?= htmlspecialchars($msg['name']) ?></span>
+                                <?php if($is_unread): ?><span class="unread-dot">●</span><?php endif; ?>
+                                <span class="email"><?= htmlspecialchars($msg['email']) ?></span>
+                                <span class="date">• <?= date('M j, Y · g:i a', strtotime($msg['created_at'])) ?></span>
                             </div>
-                            <div class="date">
-                                <?= date('F j, Y · g:i a', strtotime($msg['created_at'])) ?>
+                            <div class="message-actions">
+                                <a href="messages.php?delete=<?= $msg['id'] ?>" 
+                                   class="delete-btn" 
+                                   onclick="return confirm('Delete this message?')">Delete</a>
                             </div>
                         </div>
 
                         <div class="message-body">
-                            <?= nl2br(htmlspecialchars($msg['message'])) ?>
+                            <span class="preview-text" id="prev-<?= $msg['id'] ?>"><?= nl2br($preview) ?></span>
+                            <?php if ($is_long): ?>
+                                <span class="full-message" id="full-<?= $msg['id'] ?>"><?= nl2br($full_msg) ?></span>
+                                <button type="button" class="toggle-text-btn" onclick="toggleMessage(<?= $msg['id'] ?>, <?= $is_unread ? 'true' : 'false' ?>)">Show more</button>
+                            <?php endif; ?>
                         </div>
-                        <div class="message-actions">
-                            <a href="messages.php?delete=<?= $msg['id'] ?>"
-                                class="delete-btn"
-                                onclick="return confirm('Are you sure you want to delete this message?')">
-                                Delete
-                            </a>
-                        </div>
-
                     </div>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
-
     </div>
 
-</body>
+    <script>
+        function toggleMessage(id, wasUnread) {
+            const preview = document.getElementById('prev-' + id);
+            const full = document.getElementById('full-' + id);
+            const card = document.getElementById('card-' + id);
+            const btn = event.target;
 
+            if (full.style.display === "inline") {
+                full.style.display = "none";
+                preview.style.display = "inline";
+                btn.innerText = "Show more";
+            } else {
+                full.style.display = "inline";
+                preview.style.display = "none";
+                btn.innerText = "Show less";
+
+                if (wasUnread && card.classList.contains('unread')) {
+                    card.classList.remove('unread');
+                    card.classList.add('read');
+                    const dot = card.querySelector('.unread-dot');
+                    if(dot) dot.style.display = 'none';
+                    fetch('messages.php?ajax_read=' + id);
+                }
+            }
+        }
+    </script>
+</body>
 </html>

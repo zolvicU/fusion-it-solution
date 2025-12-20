@@ -331,8 +331,8 @@ if (isset($_GET['msg'])) {
 
         .badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
+            top: 186px;
+            right: -4px;
             background: var(--danger);
             color: white;
             font-size: 12px;
@@ -392,6 +392,25 @@ if (isset($_GET['msg'])) {
 
         .message-item strong {
             color: var(--primary);
+        }
+
+        .message-item {
+            background: var(--gray-100);
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+
+            /* FIX FOR LONG TEXT */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        .message-item p,
+        .message-item div {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
         }
     </style>
 </head>

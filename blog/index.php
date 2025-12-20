@@ -12,6 +12,7 @@ try {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,14 +65,14 @@ try {
             background: white;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
             transition: all 0.4s ease;
             border: 1px solid #e2e8f0;
         }
 
         .post-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
         }
 
         .post-image {
@@ -152,31 +153,42 @@ try {
             font-size: 18px;
         }
 
-        /* Updated Back to Home Button */
-        .back-home-btn {
+        /* Container for alignment */
+        .nav-back-wrapper {
+            text-align: center;
+            /* Keeps it centered like your previous .back-home class */
+            margin-top: 60px;
+            /* Adjusted spacing */
+            padding-top: 10px;
+        }
+
+        /* Updated Styling to match the white-bordered theme */
+        .nav-back-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 12px 24px;
-            background: #4361ee;
-            color: white;
-            font-size: 15px;
+            padding: 12px 22px;
+            font-size: 14px;
             font-weight: 600;
+            color: #0047ff;
+            background: #ffffff;
+            border: 2px solid #0047ff;
+            border-radius: 10px;
             text-decoration: none;
-            border-radius: 12px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
         }
 
-        .back-home-btn:hover {
-            background: #3651d4;
+        /* Hover State */
+        .nav-back-btn:hover {
+            background: #0047ff;
+            color: #ffffff;
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 71, 255, 0.25);
         }
 
-        .back-home {
-            text-align: center;
-            margin-top: 80px;
+        /* Active State */
+        .nav-back-btn:active {
+            transform: translateY(0px);
         }
 
         /* Responsive */
@@ -204,6 +216,7 @@ try {
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -220,9 +233,9 @@ try {
                 <?php foreach ($posts as $post): ?>
                     <article class="post-card">
                         <?php if (!empty($post['image'])): ?>
-                            <img src="../assets/uploads/blog/<?= htmlspecialchars($post['image']) ?>" 
-                                 alt="<?= htmlspecialchars($post['title']) ?>" 
-                                 class="post-image">
+                            <img src="../assets/uploads/blog/<?= htmlspecialchars($post['image']) ?>"
+                                alt="<?= htmlspecialchars($post['title']) ?>"
+                                class="post-image">
                         <?php else: ?>
                             <div class="post-image-placeholder">Featured Image</div>
                         <?php endif; ?>
@@ -237,7 +250,7 @@ try {
                                 <?= date('F j, Y', strtotime($post['created_at'])) ?>
                             </div>
                             <p class="post-excerpt">
-                                <?php 
+                                <?php
                                 $excerpt = strip_tags($post['content']);
                                 echo htmlspecialchars(substr($excerpt, 0, 150)) . (strlen($excerpt) > 150 ? '...' : '');
                                 ?>
@@ -251,9 +264,10 @@ try {
             </div>
         <?php endif; ?>
 
-        <div class="back-home">
-            <a href="../index.php" class="back-home-btn">← Back to Home</a>
+        <div class="nav-back-wrapper">
+            <a href="../index.php" class="nav-back-btn">← Back to Home</a>
         </div>
     </div>
 </body>
+
 </html>

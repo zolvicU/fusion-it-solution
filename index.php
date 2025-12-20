@@ -182,12 +182,11 @@
 
         <?php if (!empty($latest_posts)): ?>
             <div style="text-align: center; margin-top: 50px;">
-                <a href="blog/index.php" style="background: #0066ff; color: white; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px;">
-                    View All Posts →
-                </a>
+                <div class="blog-action-wrapper">
+                    <a href="blog/index.php" class="view-posts-btn">View All Posts →</a>
+                </div>
+            <?php endif; ?>
             </div>
-        <?php endif; ?>
-    </div>
 </section>
 
 <section id="about" class="section about-section">

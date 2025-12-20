@@ -977,4 +977,38 @@ footer {
     }
 }
 
+/* Container for the Blog Button */
+.blog-action-wrapper {
+    margin-top: 20px;
+    padding-top: 10px;
+    /* Optional: display: flex; justify-content: center; (if you want it centered) */
+}
 
+/* Customized Class Name */
+.view-posts-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #0047ff;
+    background: #ffffff;
+    border: 2px solid #0047ff;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+/* Hover State */
+.view-posts-btn:hover {
+    background: #0047ff;
+    color: #ffffff;
+    transform: translateY(-3px);
+    /* Subtle lift */
+    box-shadow: 0 10px 20px rgba(0, 71, 255, 0.2);
+}
+
+/* Active State (When clicked) */
+.view-posts-btn:active {
+    transform: translateY(-1px);
+}
