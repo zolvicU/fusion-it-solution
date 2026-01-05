@@ -23,6 +23,20 @@ body {
     overflow-x: hidden;
     font-size: 1.8rem;
 }
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--primary);
+    color: white;
+    padding: 8px;
+    z-index: 100;
+    border-radius: 0 0 4px 4px;
+}
+
+.skip-link:focus {
+    top: 0;
+}
 
 /* ------------------------------------------------------------
    2. Layout & Containers
@@ -456,7 +470,7 @@ footer {
 }
 
 /* ------------------------------------------------------------
-   11. Services & Products (Improved Layout)
+   11. Services(Improved Layout)
    ------------------------------------------------------------ */
 
 /* === SERVICES SECTION STYLES === */
@@ -997,7 +1011,7 @@ footer {
     text-decoration: none;
     transition: all 0.3s ease;
     text-align: center;
-}
+}   
 
 /* Hover State */
 .view-posts-btn:hover {

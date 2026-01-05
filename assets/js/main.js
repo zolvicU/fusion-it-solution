@@ -35,3 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+hamburger.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    }
+});

@@ -2,11 +2,11 @@
 
 <section class="hero" id="home">
     <div class="hero-bg-deep rellax" data-rellax-speed="-8" data-rellax-xs-speed="0">
-        <img src="assets/images/hero-bg2.png" alt="Fusion IT Skyline">
+        <img src="assets/images/hero-bg2.png" alt="Modern city skyline with digital technology overlay representing Fusion IT Solutions">
     </div>
 
     <div class="hero-bg-mid rellax" data-rellax-speed="-4" data-rellax-xs-speed="0">
-        <img src="assets/images/hero-fg.png" alt="Tech Pattern">
+        <img src="assets/images/hero-fg.png" alt="Abstract tech pattern overlay for innovative IT services">
     </div>
 
     <nav class="hero-nav">
@@ -22,7 +22,7 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
 
-            <div class="hamburger" id="hamburger">
+            <div class="hamburger" id="hamburger" tabindex="0">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -60,8 +60,9 @@
         <div class="services-grid">
 
             <div class="service-card">
-                <div class="icon-wrapper">🛡️</div>
-                <h3>Security & Safety</h3>
+                <div class="icon-wrapper" aria-hidden="true">🛡️</div>
+                <span class="visually-hidden">Security</span>
+                <h3>Security</h3>
                 <ul>
                     <li>CCTV Security (Wired & Wireless)</li>
                     <li>Intercom Systems</li>
@@ -70,7 +71,8 @@
             </div>
 
             <div class="service-card">
-                <div class="icon-wrapper">📡</div>
+                <div class="icon-wrapper" aria-hidden="true">📡</div>
+                <span class="visually-hidden">Networking</span>
                 <h3>Networking</h3>
                 <ul>
                     <li>LAN & WAN Setup</li>
@@ -81,8 +83,9 @@
             </div>
 
             <div class="service-card">
-                <div class="icon-wrapper">⚡</div>
-                <h3>Power & Infra</h3>
+                <div class="icon-wrapper" aria-hidden="true">⚡</div>
+                <span class="visually-hidden">Power & Infra</span>
+                <h3>Power & Infrastructure</h3>
                 <ul>
                     <li>Solar Panel Systems (Grid/Off-Grid)</li>
                     <li>Mono Pole Design</li>
@@ -95,7 +98,8 @@
         <div class="services-grid">
 
             <div class="service-card">
-                <div class="icon-wrapper">💻</div>
+                <div class="icon-wrapper" aria-hidden="true">💻</div>
+                <span class="visually-hidden">Development</span>
                 <h3>Development</h3>
                 <ul>
                     <li>Website Development</li>
@@ -105,7 +109,8 @@
             </div>
 
             <div class="service-card">
-                <div class="icon-wrapper">🚀</div>
+                <div class="icon-wrapper" aria-hidden="true">🚀</div>
+                <span class="visually-hidden">Development</span>
                 <h3>Business Solutions</h3>
                 <ul>
                     <li>Company Server Setup</li>
