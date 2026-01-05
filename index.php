@@ -296,7 +296,7 @@
 
         <div class="contact-cta">
             <a href="contact.php" class="contact-btn">
-                Go to Contact Page
+                Send us a Message
             </a>
         </div>
 
