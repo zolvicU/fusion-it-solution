@@ -8,7 +8,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <section id="products" class="section products-section">
     <div class="container">
-        <h2>Our Featured Products</h2>
+        <h2>Our Products</h2>
         <p class="section-subtitle">High-quality hardware and software solutions to power your business.</p>
 
         <?php if (empty($products)): ?>

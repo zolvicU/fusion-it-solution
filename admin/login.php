@@ -1,23 +1,55 @@
 <?php
+// admin/login.php
 session_start();
-
 require_once '../config/database.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+// Login throttling
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+    $_SESSION['lockout_time'] = 0;
+}
 
-    $stmt = $pdo->prepare("SELECT * FROM admin_users WHERE username = ?");
-    $stmt->execute([$username]);
-    $user = $stmt->fetch();
+$error = '';
 
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['admin_logged_in'] = true;
-        $_SESSION['admin_username'] = $username;
-        header('Location: dashboard.php');
-        exit;
+if ($_SESSION['login_attempts'] >= 5 && (time() - $_SESSION['lockout_time'] < 900)) {
+    $error = "Too many failed attempts. Please try again in 15 minutes.";
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username'] ?? '');
+    $password = $_POST['password'] ?? '';
+
+    if (empty($username) || empty($password)) {
+        $error = "Username and password are required.";
     } else {
-        $error = "Invalid username or password";
+        try {
+            $stmt = $pdo->prepare("SELECT id, username, password FROM admin_users WHERE username = ?");
+            $stmt->execute([$username]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user && password_verify($password, $user['password'])) {
+                // Success
+                session_regenerate_id(true);
+                $_SESSION['admin_id'] = $user['id'];
+                $_SESSION['admin_username'] = $user['username'];
+                $_SESSION['admin_logged_in'] = true;
+                $_SESSION['last_activity'] = time();
+
+                // Reset attempts
+                unset($_SESSION['login_attempts'], $_SESSION['lockout_time']);
+
+                header('Location: dashboard.php');
+                exit();
+            } else {
+                $_SESSION['login_attempts']++;
+                if ($_SESSION['login_attempts'] >= 5) {
+                    $_SESSION['lockout_time'] = time();
+                    $error = "Too many failed attempts. Locked for 15 minutes.";
+                } else {
+                    $error = "Invalid username or password.";
+                }
+            }
+        } catch (Exception $e) {
+            $error = "Database error. Please try again later.";
+        }
     }
 }
 ?>
@@ -27,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+    <title>Admin Login - Fusion IT Solution</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -41,6 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             --text: #1e293b;
             --text-light: #64748b;
             --border: #e2e8f0;
+            --error: #dc2626;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -113,7 +146,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: var(--text-light);
             pointer-events: none;
             transition: all 0.3s ease;
-            transform-origin: left;
         }
 
         .form-group input:focus ~ label,
@@ -156,7 +188,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         .error {
             background: #fee2e2;
-            color: #dc2626;
+            color: var(--error);
             padding: 14px;
             border-radius: 10px;
             text-align: center;
@@ -173,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p>Welcome back! Please enter your credentials.</p>
         </div>
 
-        <?php if (isset($error)): ?>
+        <?php if ($error): ?>
             <div class="error"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 

@@ -1,10 +1,6 @@
+<?php require_once 'includes/auth.php'; ?>
 <?php
-session_start();
 
-if (!isset($_SESSION['admin_logged_in'])) {
-    header('Location: login.php');
-    exit;
-}
 
 require_once '../config/database.php';
 
@@ -393,25 +389,7 @@ if (isset($_GET['msg'])) {
         .message-item strong {
             color: var(--primary);
         }
-
-        .message-item {
-            background: var(--gray-100);
-            padding: 16px;
-            border-radius: 12px;
-            margin-bottom: 16px;
-
-            /* FIX FOR LONG TEXT */
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            white-space: normal;
-        }
-
-        .message-item p,
-        .message-item div {
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            white-space: normal;
-        }
+        
     </style>
 </head>
 

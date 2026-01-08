@@ -72,7 +72,6 @@
 
             <div class="service-card">
                 <div class="icon-wrapper" aria-hidden="true">📡</div>
-                <span class="visually-hidden">Networking</span>
                 <h3>Networking</h3>
                 <ul>
                     <li>LAN & WAN Setup</li>
@@ -84,7 +83,6 @@
 
             <div class="service-card">
                 <div class="icon-wrapper" aria-hidden="true">⚡</div>
-                <span class="visually-hidden">Power & Infra</span>
                 <h3>Power & Infrastructure</h3>
                 <ul>
                     <li>Solar Panel Systems (Grid/Off-Grid)</li>
@@ -99,7 +97,6 @@
 
             <div class="service-card">
                 <div class="icon-wrapper" aria-hidden="true">💻</div>
-                <span class="visually-hidden">Development</span>
                 <h3>Development</h3>
                 <ul>
                     <li>Website Development</li>
@@ -110,7 +107,6 @@
 
             <div class="service-card">
                 <div class="icon-wrapper" aria-hidden="true">🚀</div>
-                <span class="visually-hidden">Development</span>
                 <h3>Business Solutions</h3>
                 <ul>
                     <li>Company Server Setup</li>
@@ -126,9 +122,7 @@
 <!-- Latest Blog Posts Section -->
 <section id="latest-blog" style="padding: 80px 20px; background: #f9fafb;">
     <div class="container" style="max-width: 1200px; margin: 0 auto;">
-        <h2 style="text-align: center; font-size: 32px; margin-bottom: 50px; color: #003087;">
-            Latest from Our Blog
-        </h2>
+        <h2 style="text-align: center; font-size: 32px; margin-bottom: 50px; color: #003087;"> Our Blog</h2>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
             <?php

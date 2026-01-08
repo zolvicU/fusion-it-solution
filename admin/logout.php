@@ -1,12 +1,8 @@
 <?php
 // admin/logout.php
-session_start();  // Start session
-
-// Destroy all session data
+session_start();
 session_unset();
 session_destroy();
-
-// Redirect to login
-header('Location: login.php');
-exit;
+header('Location: login.php?msg=You have been logged out successfully');
+exit();
 ?>
