@@ -98,180 +98,483 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Blog Post | Admin</title>
+    <title>Edit Blog Post | Admin Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/style.css">
     <style>
         :root {
-            --primary: #0066ff;
-            --success: #10b981;
-            --error: #ef4444;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #059669;
+            --error: #dc2626;
+            --warning: #d97706;
+            --gray-50: #f9fafb;
             --gray-100: #f3f4f6;
             --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
             --gray-800: #1f2937;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --radius: 12px;
+            --gray-900: #111827;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 6px;
+            --radius: 10px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #f9fafb;
+            font-size: 14px;
+            line-height: 1.5;
+            font-weight: 400;
             color: var(--gray-800);
-            margin: 0;
+            background: linear-gradient(135deg, #f6f8ff 0%, #f0f4ff 100%);
+            min-height: 100vh;
             padding: 20px;
         }
 
         .container {
-            max-width: 800px;
-            margin: 40px auto;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--gray-600);
         }
 
         .card {
             background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
             overflow: hidden;
+            border: 1px solid var(--gray-200);
         }
 
         .card-header {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
-            padding: 30px;
-            text-align: center;
+            padding: 24px 32px;
         }
 
-        .card-header h1 {
-            margin: 0;
-            font-size: 28px;
+        .card-header h2 {
+            font-size: 18px;
             font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header h2::before {
+            content: "✏️";
+            font-size: 16px;
         }
 
         .card-body {
             padding: 32px;
         }
 
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
         label {
             display: block;
+            font-size: 13px;
             font-weight: 500;
+            color: var(--gray-700);
             margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .label-hint {
+            font-size: 12px;
+            color: var(--gray-500);
+            font-weight: 400;
+            margin-top: 2px;
+            text-transform: none;
+            letter-spacing: normal;
         }
 
         input[type="text"],
         textarea,
         input[type="file"] {
             width: 100%;
-            padding: 12px 16px;
-            border: 1px solid var(--gray-200);
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 10px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--gray-800);
+            background: white;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        input[type="text"]::placeholder,
+        textarea::placeholder {
+            color: var(--gray-400);
         }
 
         textarea {
-            min-height: 250px;
+            min-height: 200px;
             resize: vertical;
+            line-height: 1.6;
         }
 
-        .current-image {
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .current-image img {
-            max-width: 400px;
-            border-radius: 8px;
+        .current-image-section {
+            background: var(--gray-50);
             border: 1px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-top: 8px;
+        }
+
+        .current-image-section p {
+            font-size: 13px;
+            color: var(--gray-600);
+            margin-bottom: 12px;
+        }
+
+        .current-image-section p strong {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .current-image-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .current-image-container img {
+            max-width: 200px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gray-300);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .image-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .image-info small {
+            display: block;
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-top: 6px;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            margin-top: 8px;
+        }
+
+        .file-input-wrapper input[type="file"] {
+            padding: 12px;
+            border: 2px dashed var(--gray-300);
+            background: var(--gray-50);
+            cursor: pointer;
+        }
+
+        .file-input-wrapper input[type="file"]:hover {
+            border-color: var(--primary);
+            background: #f8faff;
+        }
+
+        .file-input-wrapper::before {
+            content: "📁 Choose Image";
+            position: absolute;
+            top: 50%;
+            right: 14px;
+            transform: translateY(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 500;
+            pointer-events: none;
         }
 
         .btn {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
-            padding: 14px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: var(--radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 140px;
         }
 
         .btn:hover {
-            background: #0052cc;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-update {
+            background: linear-gradient(135deg, var(--success) 0%, #047857 100%);
+            width: 100%;
+            padding: 14px;
+            font-weight: 600;
+            margin-top: 32px;
         }
 
         .alert {
-            padding: 16px;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border-radius: var(--radius);
             margin-bottom: 24px;
+            font-size: 13px;
             font-weight: 500;
+            border-left: 4px solid;
         }
 
         .alert.success {
-            background: #d1fae5;
+            background: #f0fdf4;
             color: var(--success);
-            border: 1px solid #a7f3d0;
+            border-color: var(--success);
         }
 
         .alert.error {
-            background: #fee2e2;
+            background: #fef2f2;
             color: var(--error);
-            border: 1px solid #fecaca;
+            border-color: var(--error);
+        }
+
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--gray-200);
         }
 
         .back-link {
-            display: block;
-            text-align: center;
-            margin-top: 32px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             color: var(--gray-600);
             text-decoration: none;
+            font-size: 13px;
             font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
         }
 
         .back-link:hover {
             color: var(--primary);
+            background: var(--gray-100);
+            transform: translateX(-2px);
+        }
+
+        .back-link::before {
+            content: "←";
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            
+            .container {
+                max-width: 100%;
+            }
+            
+            .card-body {
+                padding: 20px;
+            }
+            
+            .card-header {
+                padding: 20px;
+            }
+            
+            .current-image-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .current-image-container img {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <div class="header">
+            <h1>Edit Blog Post</h1>
+            <p>Update your blog post content, SEO slug, and featured image</p>
+        </div>
+
+        <?php echo $message; ?>
+
         <div class="card">
             <div class="card-header">
-                <h1>Edit Blog Post</h1>
+                <h2>Edit Post Details</h2>
             </div>
             <div class="card-body">
-                <?php echo $message; ?>
+                <form method="post" enctype="multipart/form-data" class="form-grid">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <div class="label-hint">Main heading of your blog post</div>
+                        <input type="text" id="title" name="title" 
+                               value="<?php echo htmlspecialchars($post['title']); ?>" 
+                               required 
+                               placeholder="Enter a compelling title">
+                    </div>
 
-                <form method="post" enctype="multipart/form-data">
-                    <label for="title">Title</label>
-                    <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($post['title']); ?>" required>
+                    <div class="form-group">
+                        <label for="slug">URL Slug</label>
+                        <div class="label-hint">SEO-friendly URL identifier (lowercase, hyphens)</div>
+                        <input type="text" id="slug" name="slug" 
+                               value="<?php echo htmlspecialchars($post['slug']); ?>" 
+                               required 
+                               placeholder="e.g., reliable-internet-solutions">
+                    </div>
 
-                    <label for="slug">Slug (URL-friendly)</label>
-                    <input type="text" id="slug" name="slug" value="<?php echo htmlspecialchars($post['slug']); ?>" required>
-
-                    <label for="content">Content</label>
-                    <textarea id="content" name="content" required><?php echo htmlspecialchars($post['content']); ?></textarea>
+                    <div class="form-group">
+                        <label for="content">Content</label>
+                        <div class="label-hint">Main body of your blog post</div>
+                        <textarea id="content" name="content" 
+                                  required 
+                                  placeholder="Write your blog content here..."><?php echo htmlspecialchars($post['content']); ?></textarea>
+                    </div>
 
                     <?php if (!empty($post['image'])): ?>
-                        <div class="current-image">
-                            <p><strong>Current Image:</strong></p>
-                            <img src="../assets/uploads/blog/<?php echo htmlspecialchars($post['image']); ?>" alt="Current image">
-                            <p><small>Upload a new image to replace it.</small></p>
+                        <div class="form-group">
+                            <label>Current Featured Image</label>
+                            <div class="current-image-section">
+                                <div class="current-image-container">
+                                    <img src="../assets/uploads/blog/<?php echo htmlspecialchars($post['image']); ?>" 
+                                         alt="Current featured image">
+                                    <div class="image-info">
+                                        <p><strong>Current Image Preview</strong></p>
+                                        <small>Upload a new image below to replace this one</small>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     <?php endif; ?>
 
-                    <label for="image">New Image (optional)</label>
-                    <input type="file" id="image" name="image" accept="image/*">
+                    <div class="form-group">
+                        <label for="image">Update Featured Image</label>
+                        <div class="label-hint">Optional - Upload JPG, PNG, or GIF (max 5MB)</div>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="image" name="image" accept="image/*">
+                        </div>
+                    </div>
 
-                    <button type="submit" class="btn">Update Post</button>
+                    <button type="submit" class="btn btn-update">
+                        <span>Update Post</span>
+                    </button>
                 </form>
 
-                <a href="blog-list.php" class="back-link">← Back to Blog List</a>
+                <div class="action-bar">
+                    <a href="blog-list.php" class="back-link">Back to Blog List</a>
+                    <div style="font-size: 12px; color: var(--gray-500);">
+                        Last updated: <?php echo date('M j, Y'); ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Auto-generate slug from title
+        document.getElementById('title').addEventListener('input', function() {
+            const titleInput = this;
+            const slugInput = document.getElementById('slug');
+            
+            if (slugInput.dataset.manual !== 'true') {
+                const slug = titleInput.value
+                    .toLowerCase()
+                    .replace(/[^\w\s]/gi, '')
+                    .replace(/\s+/g, '-')
+                    .replace(/--+/g, '-')
+                    .trim();
+                slugInput.value = slug;
+            }
+        });
+        
+        // Mark slug as manually edited
+        document.getElementById('slug').addEventListener('input', function() {
+            this.dataset.manual = 'true';
+        });
+        
+        // Show file name when selected
+        document.getElementById('image').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name;
+            const wrapper = document.querySelector('.file-input-wrapper');
+            
+            if (fileName) {
+                const existingHint = wrapper.querySelector('.file-hint');
+                if (existingHint) existingHint.remove();
+                
+                const hint = document.createElement('div');
+                hint.className = 'file-hint';
+                hint.style.cssText = 'font-size: 12px; color: var(--gray-600); margin-top: 8px;';
+                hint.textContent = `Selected: ${fileName}`;
+                wrapper.appendChild(hint);
+            }
+        });
+    </script>
 </body>
 
 </html>

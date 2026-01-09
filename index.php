@@ -120,11 +120,26 @@
 </section>
 
 <!-- Latest Blog Posts Section -->
-<section id="latest-blog" style="padding: 80px 20px; background: #f9fafb;">
-    <div class="container" style="max-width: 1200px; margin: 0 auto;">
-        <h2 style="text-align: center; font-size: 32px; margin-bottom: 50px; color: #003087;"> Our Blog</h2>
+<section id="latest-blog" style="padding: 100px 20px; background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); position: relative; overflow: hidden;">
+    <!-- Background accent -->
+    <div style="position: absolute; top: 0; right: 0; width: 300px; height: 300px; background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%); transform: translate(30%, -30%); z-index: 0;"></div>
+    
+    <div class="container" style="max-width: 1280px; margin: 0 auto; position: relative; z-index: 1;">
+        <!-- Section Header -->
+        <div style="text-align: center; margin-bottom: 64px;">
+            <span style="display: inline-block; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 14px; color: #2563eb; background: #eff6ff; padding: 8px 20px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.5px; text-transform: uppercase;">
+                Insights & Updates
+            </span>
+            <h2 style="font-family: 'Inter', sans-serif; font-weight: 300; font-size: clamp(32px, 4vw, 42px); color: #0f172a; margin: 0 0 16px; line-height: 1.2; letter-spacing: -0.02em;">
+                Our Blog
+            </h2>
+            <p style="font-family: 'Inter', sans-serif; font-weight: 300; font-size: 18px; color: #64748b; max-width: 600px; margin: 0 auto; line-height: 1.6;">
+                Expert perspectives on technology, networking, and digital transformation
+            </p>
+        </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+        <!-- Blog Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 32px; margin-bottom: 60px;">
             <?php
             require_once 'config/database.php';
 
@@ -133,60 +148,212 @@
                 $latest_posts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 if (empty($latest_posts)) {
-                    echo '<p style="grid-column: 1 / -1; text-align: center; color: #666; font-size: 18px;">No blog posts yet. Check back soon!</p>';
+                    echo '<div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                            <div style="font-size: 48px; color: #cbd5e1; margin-bottom: 20px;">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <p style="font-family: \'Inter\', sans-serif; font-weight: 300; font-size: 18px; color: #64748b;">
+                                We are currently preparing insightful content. Check back soon!
+                            </p>
+                          </div>';
                 } else {
                     foreach ($latest_posts as $post) {
-                        $excerpt = substr(strip_tags($post['content']), 0, 150) . (strlen(strip_tags($post['content'])) > 160 ? '...' : '');
+                        $excerpt = strip_tags($post['content']);
+                        if (strlen($excerpt) > 120) {
+                            $excerpt = substr($excerpt, 0, 120);
+                            $excerpt = substr($excerpt, 0, strrpos($excerpt, ' ')) . '...';
+                        }
+                        
+                        // Calculate reading time
+                        $word_count = str_word_count(strip_tags($post['content']));
+                        $reading_time = ceil($word_count / 200);
             ?>
-                        <article style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: transform 0.3s;">
-                            <?php if (!empty($post['image'])): ?>
-                                <div style="height: 200px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        <article style="background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1); position: relative; height: 100%; display: flex; flex-direction: column;">
+                            <!-- Hover effect -->
+                            <div style="position: absolute; inset: 0; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); opacity: 0; transition: opacity 0.3s ease; z-index: 1; pointer-events: none;"></div>
+                            
+                            <!-- Featured badge -->
+                            <div style="position: absolute; top: 20px; left: 20px; z-index: 2;">
+                                <span style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 11px; color: white; background: #2563eb; padding: 6px 14px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block;">
+                                    Featured
+                                </span>
+                            </div>
+                            
+                            <!-- Image Container -->
+                            <div style="height: 220px; overflow: hidden; position: relative;">
+                                <?php if (!empty($post['image'])): ?>
                                     <img src="assets/uploads/blog/<?php echo htmlspecialchars($post['image']); ?>"
                                         alt="<?php echo htmlspecialchars($post['title']); ?>"
-                                        style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                                        style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease;"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);"></div>
+                                <?php endif; ?>
+                                
+                                <!-- Fallback image -->
+                                <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); display: <?php echo empty($post['image']) ? 'flex' : 'none'; ?>; align-items: center; justify-content: center; color: white; position: relative;">
+                                    <i class="fas fa-newspaper" style="font-size: 48px; opacity: 0.8;"></i>
+                                    <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);"></div>
                                 </div>
-                            <?php else: ?>
-                                <div style="height: 200px; background: #e5e7eb; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-size: 18px;">
-                                    No Image
-                                </div>
-                            <?php endif; ?>
+                            </div>
 
-                            <div style="padding: 24px;">
-                                <h3 style="font-size: 20px; margin: 0 0 12px; font-weight: 600;">
+                            <!-- Content -->
+                            <div style="padding: 28px; flex: 1; display: flex; flex-direction: column; position: relative; z-index: 2; background: white;">
+                                <!-- Meta info -->
+                                <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px; font-family: 'Inter', sans-serif; font-weight: 300; font-size: 14px; color: #64748b;">
+                                    <span style="display: flex; align-items: center; gap: 6px;">
+                                        <i class="far fa-calendar" style="font-size: 14px; color: #2563eb;"></i>
+                                        <?php echo date('M j, Y', strtotime($post['created_at'])); ?>
+                                    </span>
+                                    <span style="display: flex; align-items: center; gap: 6px;">
+                                        <i class="far fa-clock" style="font-size: 14px; color: #2563eb;"></i>
+                                        <?php echo $reading_time; ?> min read
+                                    </span>
+                                </div>
+
+                                <!-- Title -->
+                                <h3 style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 20px; color: #0f172a; margin: 0 0 16px; line-height: 1.4; flex: 1;">
                                     <a href="blog/post.php?slug=<?php echo htmlspecialchars($post['slug']); ?>"
-                                        style="color: #003087; text-decoration: none;">
+                                        style="color: inherit; text-decoration: none; transition: color 0.2s ease;">
                                         <?php echo htmlspecialchars($post['title']); ?>
                                     </a>
                                 </h3>
-                                <p style="color: #666; font-size: 15px; margin-bottom: 16px;">
+
+                                <!-- Excerpt -->
+                                <p style="font-family: 'Inter', sans-serif; font-weight: 300; font-size: 15px; color: #475569; margin-bottom: 24px; line-height: 1.6; flex: 1;">
                                     <?php echo htmlspecialchars($excerpt); ?>
                                 </p>
-                                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #888;">
-                                    <span><?php echo date('F j, Y', strtotime($post['created_at'])); ?></span>
+
+                                <!-- Footer -->
+                                <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
                                     <a href="blog/post.php?slug=<?php echo htmlspecialchars($post['slug']); ?>"
-                                        style="color: #0066ff; font-weight: 500; text-decoration: none;">
-                                        Read More →
+                                        style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 15px; color: #2563eb; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s ease; padding: 8px 16px; border-radius: 8px; background: #eff6ff;">
+                                        Read Article
+                                        <i class="fas fa-arrow-right" style="font-size: 14px; transition: transform 0.3s ease;"></i>
                                     </a>
+                                    <span style="font-family: 'Inter', sans-serif; font-weight: 300; font-size: 13px; color: #94a3b8; display: flex; align-items: center; gap: 6px;">
+                                        <i class="fas fa-book-open" style="font-size: 13px;"></i>
+                                        <?php echo $reading_time; ?> min
+                                    </span>
                                 </div>
                             </div>
+                            
+                            <!-- Hover styles -->
+                            <style>
+                                article:hover {
+                                    transform: translateY(-12px);
+                                    box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.25);
+                                    border-color: #2563eb;
+                                }
+                                
+                                article:hover::before {
+                                    opacity: 1;
+                                }
+                                
+                                article:hover h3 a {
+                                    color: #2563eb;
+                                }
+                                
+                                article:hover a[style*="color: #2563eb"] {
+                                    background: #2563eb;
+                                    color: white;
+                                    transform: translateX(4px);
+                                }
+                                
+                                article:hover a[style*="color: #2563eb"] i {
+                                    transform: translateX(4px);
+                                }
+                                
+                                article:hover img {
+                                    transform: scale(1.08);
+                                }
+                            </style>
                         </article>
             <?php
                     }
                 }
             } catch (Exception $e) {
-                echo '<p style="grid-column: 1 / -1; text-align: center; color: #ef4444;">Error loading blog posts.</p>';
+                echo '<div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
+                        <div style="font-size: 32px; color: #f87171; margin-bottom: 16px;">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <p style="font-family: \'Inter\', sans-serif; font-weight: 300; font-size: 16px; color: #64748b;">
+                            Unable to load blog posts at the moment. Please try again later.
+                        </p>
+                      </div>';
             }
             ?>
         </div>
 
         <?php if (!empty($latest_posts)): ?>
-            <div style="text-align: center; margin-top: 50px;">
-                <div class="blog-action-wrapper">
-                    <a href="blog/index.php" class="view-posts-btn">View All Posts →</a>
+            <!-- CTA Section -->
+            <div style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); border-radius: 20px; padding: 60px 40px; text-align: center; box-shadow: 0 20px 40px rgba(37, 99, 235, 0.2); margin-top: 20px;">
+                <h3 style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 28px; color: white; margin: 0 0 16px;">
+                    Want More Insights?
+                </h3>
+                <p style="font-family: 'Inter', sans-serif; font-weight: 300; font-size: 18px; color: rgba(255, 255, 255, 0.9); margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+                    Explore our complete collection of articles on technology, networking, and digital solutions.
+                </p>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <a href="blog/index.php" 
+                       style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 16px; color: #2563eb; background: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+                        <i class="fas fa-newspaper"></i>
+                        View All Posts
+                    </a>
+                    <a href="blog/index.php" 
+                       style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: 16px; color: white; background: rgba(255, 255, 255, 0.1); padding: 16px 32px; border-radius: 12px; text-decoration: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 12px; border: 2px solid rgba(255, 255, 255, 0.3);">
+                        <i class="fas fa-rss"></i>
+                        Subscribe
+                    </a>
                 </div>
-            <?php endif; ?>
             </div>
+        <?php endif; ?>
+    </div>
+    
+    <!-- Add Font Awesome if not already included -->
+    <script>
+        if (!document.querySelector('link[href*="font-awesome"]')) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+            document.head.appendChild(link);
+        }
+        
+        // Add hover effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const articles = document.querySelectorAll('#latest-blog article');
+            
+            articles.forEach(article => {
+                article.addEventListener('mouseenter', function() {
+                    this.style.zIndex = '10';
+                });
+                
+                article.addEventListener('mouseleave', function() {
+                    this.style.zIndex = '';
+                });
+            });
+            
+            // Lazy load images
+            const images = document.querySelectorAll('#latest-blog img');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.getAttribute('src');
+                        observer.unobserve(img);
+                    }
+                });
+            }, { rootMargin: '100px 0px' });
+            
+            images.forEach(img => imageObserver.observe(img));
+        });
+    </script>
+    
+    <!-- Add Inter font if not already included -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    </style>
 </section>
+
 
 <section id="about" class="section about-section">
     <div class="container">
