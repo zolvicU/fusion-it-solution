@@ -1,7 +1,9 @@
 <?php
 // admin/login.php
 session_start();
-require_once '../config/database.php';
+
+// Database connection - use correct relative path
+require_once __DIR__ . '/../config/database.php';
 
 // Login throttling
 if (!isset($_SESSION['login_attempts'])) {
@@ -21,23 +23,37 @@ if ($_SESSION['login_attempts'] >= 5 && (time() - $_SESSION['lockout_time'] < 90
         $error = "Username and password are required.";
     } else {
         try {
-            $stmt = $pdo->prepare("SELECT id, username, password FROM admin_users WHERE username = ?");
+            $stmt = $pdo->prepare("SELECT id, username, password_hash, role, status FROM admin_users WHERE username = ?");
             $stmt->execute([$username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($password, $user['password'])) {
-                // Success
-                session_regenerate_id(true);
-                $_SESSION['admin_id'] = $user['id'];
-                $_SESSION['admin_username'] = $user['username'];
-                $_SESSION['admin_logged_in'] = true;
-                $_SESSION['last_activity'] = time();
+            if ($user) {
+                // Check if account is active
+                if ($user['status'] !== 'active') {
+                    $error = "Account is inactive. Please contact administrator.";
+                } elseif (password_verify($password, $user['password_hash'])) {
+                    // Success
+                    session_regenerate_id(true);
+                    $_SESSION['admin_id'] = $user['id'];
+                    $_SESSION['admin_username'] = $user['username'];
+                    $_SESSION['admin_role'] = $user['role'];
+                    $_SESSION['admin_logged_in'] = true;
+                    $_SESSION['last_activity'] = time();
 
-                // Reset attempts
-                unset($_SESSION['login_attempts'], $_SESSION['lockout_time']);
+                    // Reset attempts
+                    unset($_SESSION['login_attempts'], $_SESSION['lockout_time']);
 
-                header('Location: dashboard.php');
-                exit();
+                    header('Location: dashboard.php');
+                    exit();
+                } else {
+                    $_SESSION['login_attempts']++;
+                    if ($_SESSION['login_attempts'] >= 5) {
+                        $_SESSION['lockout_time'] = time();
+                        $error = "Too many failed attempts. Locked for 15 minutes.";
+                    } else {
+                        $error = "Invalid username or password.";
+                    }
+                }
             } else {
                 $_SESSION['login_attempts']++;
                 if ($_SESSION['login_attempts'] >= 5) {
@@ -48,6 +64,7 @@ if ($_SESSION['login_attempts'] >= 5 && (time() - $_SESSION['lockout_time'] < 90
                 }
             }
         } catch (Exception $e) {
+            error_log("Login error: " . $e->getMessage());
             $error = "Database error. Please try again later.";
         }
     }
